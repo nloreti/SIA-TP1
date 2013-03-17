@@ -1,5 +1,7 @@
 package api;
 
+import java.util.List;
+
 import exception.NotAppliableException;
 
 /**
@@ -29,5 +31,5 @@ public interface GPSRule {
 	 * @throws NotAppliableException if the rule can not be
 	 * applied to the received state.
 	 */
-	GPSState evalRule(GPSState state) throws NotAppliableException;
+	List<GPSState> evalRule(GPSState state) throws NotAppliableException;
 }

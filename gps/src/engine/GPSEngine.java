@@ -66,22 +66,24 @@ public abstract class GPSEngine {
 			System.err.println("No rules!");
 			return false;
 		}
-		
+
 		for (GPSRule rule : problem.getRules()) {
-			GPSState newState = null;
+			List<GPSState> listState = new ArrayList<GPSState>();
 			try {
-				newState = rule.evalRule(node.getState());
+				listState = rule.evalRule(node.getState());
 			} catch (NotAppliableException e) {
 				// Do nothing
 			}
-			if (newState != null
-					&& !checkBranch(node, newState)
-					&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
-							newState)) {
-				GPSNode newNode = new GPSNode(newState, node.getCost()
-						+ rule.getCost());
-				newNode.setParent(node);
-				addNode(newNode);
+			for (GPSState newState : listState) {
+				if (newState != null
+						&& !checkBranch(node, newState)
+						&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
+								newState)) {
+					GPSNode newNode = new GPSNode(newState, node.getCost()
+							+ rule.getCost());
+					newNode.setParent(node);
+					addNode(newNode);
+				}
 			}
 		}
 		return true;
@@ -111,5 +113,5 @@ public abstract class GPSEngine {
 	}
 
 	public abstract  void addNode(GPSNode node);
-	
+
 }

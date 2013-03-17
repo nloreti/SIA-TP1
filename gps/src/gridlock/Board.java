@@ -316,6 +316,13 @@ public class Board {
 		return new Board(ans);
 	}
 
+	public int getSize() {
+		return this.size;
+	}
+	
+	public int[][] getRawBoard(){
+		return this.board;
+	}
 	public Position getBlueBlockPosition() {
 		Position ans = null;
 		for(int i = 0; i < size; i++) {
