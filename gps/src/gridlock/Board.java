@@ -337,15 +337,25 @@ public class Board {
 	}
 	
 	public boolean isResolved() {
-		int pos_x = blueBlock.getX();
-		boolean ans = true;
-		for(int j = 0; j< size; j++) {
-			if(board[pos_x][j] != '.'){
-				ans = false;
-				break;
+		for(int i=0; i<board.length; i++) {
+			if( board[i][5] == '0') {
+				return true;
 			}
 		}
-		return ans;
+		return false;
+//		int pos_x = blueBlock.getX();
+//		if ( board[pos_x][5] == '0') {
+//			return true;
+//		}
+//		return false;
+//		boolean ans = true;
+//		for(int j = 0; j< size; j++) {
+//			if(board[pos_x][j] != '.'){
+//				ans = false;
+//				break;
+//			}
+//		}
+//		return ans;
 	}
 	
 	public Position getBlueBlock() {
@@ -382,50 +392,6 @@ public class Board {
 		}
 	}
 	
-	public static void main(String[] args) {
-		int[][] matrix = new int[6][6];
-		matrix[0][0] = '1';
-		matrix[0][1] = '.';
-		matrix[0][2] = '.';
-		matrix[0][3] = 'a';
-		matrix[0][4] = 'a';
-		matrix[0][5] = 'a';
-		matrix[1][0] = '1';
-		matrix[1][1] = '.';
-		matrix[1][2] = '.';
-		matrix[1][3] = '2';
-		matrix[1][4] = '.';
-		matrix[1][5] = '4';
-		matrix[2][0] = '0';
-		matrix[2][1] = '0';
-		matrix[2][2] = '.';
-		matrix[2][3] = '2';
-		matrix[2][4] = '3';
-		matrix[2][5] = '4';
-		matrix[3][0] = 'b';
-		matrix[3][1] = 'b';
-		matrix[3][2] = 'b';
-		matrix[3][3] = '.';
-		matrix[3][4] = '3';
-		matrix[3][5] = '4';
-		matrix[4][0] = '.';
-		matrix[4][1] = '.';
-		matrix[4][2] = '5';
-		matrix[4][3] = '.';
-		matrix[4][4] = 'c';
-		matrix[4][5] = 'c';
-		matrix[5][0] = 'd';
-		matrix[5][1] = 'd';
-		matrix[5][2] = '5';
-		matrix[5][3] = 'e';
-		matrix[5][4] = 'e';
-		matrix[5][5] = '.';
-		
-		Board board = new Board(matrix);
-		board.printBoard();
-		board.getAllPosibleBoards();
-		
-	}
 
 	@Override
 	public int hashCode() {
@@ -448,6 +414,22 @@ public class Board {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		String ans = "Board\n";
+		for(int i = 0; i < size; i++) {
+			for(int j=0; j < size; j++) {
+				ans += ((char)(board[i][j]) + " ");
+				
+			}
+			
+			ans += "\n";
+		}
+		return ans;
+	}
+	
+	
 	
 	
 
