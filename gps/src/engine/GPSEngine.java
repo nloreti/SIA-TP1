@@ -11,11 +11,16 @@ import java.util.List;
 
 public abstract class GPSEngine {
 
-	private List<GPSNode> open = new LinkedList<GPSNode>();
+	protected List<GPSNode> open;
 
-	private List<GPSNode> closed = new ArrayList<GPSNode>();
+	private List<GPSNode> closed;
 
 	private GPSProblem problem;
+	
+	public GPSEngine() {
+		open = new LinkedList<GPSNode>();
+		closed = new ArrayList<GPSNode>();
+	}
 
 	// Use this variable in the addNode implementation
 	private SearchStrategy strategy;
@@ -58,7 +63,7 @@ public abstract class GPSEngine {
 
 	private  boolean isGoal(GPSNode currentNode) {
 		return currentNode.getState() != null
-				&& currentNode.getState().compare(problem.getGoalState());
+				&& currentNode.getState().isGoalState();//compare(problem.getGoalState());
 	}
 
 	private  boolean explode(GPSNode node) {
@@ -68,6 +73,7 @@ public abstract class GPSEngine {
 		}
 
 		for (GPSRule rule : problem.getRules()) {
+			
 			List<GPSState> listState = new ArrayList<GPSState>();
 			try {
 				listState = rule.evalRule(node.getState());
@@ -113,5 +119,6 @@ public abstract class GPSEngine {
 	}
 
 	public abstract  void addNode(GPSNode node);
+	public abstract String getStrategyName();
 
 }
