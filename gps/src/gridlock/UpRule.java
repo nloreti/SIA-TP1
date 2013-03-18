@@ -41,16 +41,16 @@ public class UpRule implements GPSRule {
 	
 	
 	private Board checkUP(int[][] board, int i, int j) {
-		if ( i==0 ) {
+		if ( i==0) {
 			return null;
 		}
 		int[][] ans = new int[board.length][board.length];
 		copyBoard(ans,board);
 		int upToken = board[i-1][j];
 		int size,token,distance,k;
-	//	System.out.println("UP TOKEN: " + (char)upToken);
+		//System.out.println("DOWN TOKEN: " + (char)downToken);
 		if ( isHorizontal(upToken) ) {
-	//		System.out.println("ENTRO A HORIZONTAL");
+		//	System.out.println("ENTRO A HORIZONTAL");
 			return null;
 		}
 		else if ( isVertical(upToken) ) {
@@ -60,12 +60,12 @@ public class UpRule implements GPSRule {
 			for ( k = i; size>0; k--, size--) {
 				ans[k][j] = upToken;
 			}
-			for( ; distance > 0 && k > 0; distance--, k--) {
+			for( ; distance > 0 && k >= 0; distance--, k--) {
 				ans[k][j] = '.';
 			}
 		}else {
 			int h;
-			for(h = i-1; h > 0; h--) {
+			for(h = i-1; h >= 0; h--) {
 				token = board[h][j];
 				if (isHorizontal(token)) {
 					return null;
@@ -73,12 +73,12 @@ public class UpRule implements GPSRule {
 				if( isVertical(token)) {
 		//			System.out.println("TOKEN if: " + (char)token);
 					distance = i-h;
-					size = getVTokenSize(board, token, h, j);
-		//			System.out.println("SIZE " + size);
+					size = getVTokenSize(board,token, h, j);
+			//		System.out.println("SIZE " + size);
 					for ( k = i; size>0; k--, size--) {
 						ans[k][j] = token;
 					}
-					for( ; distance > 0 && k>0; distance--, k--) {
+					for( ; distance > 0 && k>=0; distance--, k--) {
 						ans[k][j] = '.';
 					}
 					break;
@@ -117,16 +117,28 @@ public class UpRule implements GPSRule {
 	}
 
 	private int getVTokenSize(int[][] board, int token, int i, int j) {
+	//	System.out.println("RECIBO TABLERO");
+	//	new Board(board).printBoard();
 		int size = 1;
 		if ( i < 5 && board[i+1][j] == token) {
 			for(int h=i+1;  h < board.length && board[h][j] == token; h++) {
 				size++;
 			}
 		}else {
-			for(int h=i-1;  h > 0 && board[h][j] == token; h--) {
+		//	System.out.println("Entro al que tenia que entrar, valor de i: " + i);
+			for(int h=i-1;  h >= 0; h--) {
+				if (board[h][j] != token) {
+		//			System.out.println("entro al break");
+					break;
+				}
 				size++;
+	//			System.out.println("Actualiza:" + size);
 			}
 		}
+	//	if(board[0][j] == token) {
+	//		size++;
+	//	}
+	//	System.out.println("Token: " + (char)token + "-i: " + i + "-j: " + j + " SIZE: "+size);
 		return size;
 	}
 

@@ -21,6 +21,10 @@ public class Board {
 		saveBlocks();
 	}
 	
+	public Map<Integer,Integer> getBlocks() {
+		return blocks;
+	}
+	
 	public void saveBlocks() {
 		int size;
 		for(int i = 0; i < this.size; i++) {
