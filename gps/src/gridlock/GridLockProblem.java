@@ -1,6 +1,7 @@
 package gridlock;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import api.GPSProblem;
@@ -49,5 +50,22 @@ public class GridLockProblem implements GPSProblem {
 	public Integer getHValue(GPSState state) {
 		throw new IllegalStateException();
 	}
+
+	public void invertRules() {
+//		List<GPSRule> inverted = new LinkedList<GPSRule>();
+//		for(GPSRule r: rules) {
+//			inverted.add(r);
+//		}
+//		rules = inverted;
+		GPSRule rule = rules.get(0);
+		rules.remove(0);
+		rules.add(rule);
+		
+//		rule = rules.get(0);
+//		rules.remove(0);
+//		rules.add(rule);
+		
+	}
+
 
 }

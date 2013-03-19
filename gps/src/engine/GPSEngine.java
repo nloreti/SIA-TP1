@@ -15,7 +15,7 @@ public abstract class GPSEngine {
 
 	private List<GPSNode> closed;
 
-	private GPSProblem problem;
+	protected GPSProblem problem;
 	
 	public GPSEngine() {
 		open = new LinkedList<GPSNode>();
@@ -66,7 +66,7 @@ public abstract class GPSEngine {
 				&& currentNode.getState().isGoalState();//compare(problem.getGoalState());
 	}
 
-	private  boolean explode(GPSNode node) {
+	protected  boolean explode(GPSNode node) {
 		if(problem.getRules() == null){
 			System.err.println("No rules!");
 			return false;
