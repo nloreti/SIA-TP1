@@ -3,6 +3,7 @@ package gridlock;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.BoardUtils;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
@@ -10,25 +11,15 @@ import exception.NotAppliableException;
 public class UpRule implements GPSRule {
 
 	@Override
-	public Integer getCost() {
-		return 1;
-	}
-
-	@Override
-	public String getName() {
-		return "Se mueve arriba la pieza";
-	}
-
-	@Override
 	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
 		List<GPSState> ans = new ArrayList<GPSState>();
 		Board board = ((GridLockState)state).getBoard();
 		int [][] rawBoard = board.getRawBoard();
+		Board temp;
 		
 		for(int i = 0; i < board.getSize(); i++) {
 			for(int j=0; j < board.getSize(); j++) {
 				if(rawBoard[i][j] == '.'){
-					Board temp;
 					temp = checkUP(rawBoard, i,j);
 					if (temp != null) {
 						ans.add(new GridLockState(temp));
@@ -45,15 +36,15 @@ public class UpRule implements GPSRule {
 			return null;
 		}
 		int[][] ans = new int[board.length][board.length];
-		copyBoard(ans,board);
+		BoardUtils.copyBoard(ans,board);
 		int upToken = board[i-1][j];
 		int size,token,distance,k;
 		//System.out.println("DOWN TOKEN: " + (char)downToken);
-		if ( isHorizontal(upToken) ) {
+		if ( BoardUtils.isHorizontal(upToken) ) {
 		//	System.out.println("ENTRO A HORIZONTAL");
 			return null;
 		}
-		else if ( isVertical(upToken) ) {
+		else if ( BoardUtils.isVertical(upToken) ) {
 			distance = 1;
 			size = getVTokenSize(board, upToken, i-1, j);
 	//		System.out.println("SIZE: " + size);
@@ -67,10 +58,10 @@ public class UpRule implements GPSRule {
 			int h;
 			for(h = i-1; h >= 0; h--) {
 				token = board[h][j];
-				if (isHorizontal(token)) {
+				if (BoardUtils.isHorizontal(token)) {
 					return null;
 				}
-				if( isVertical(token)) {
+				if( BoardUtils.isVertical(token)) {
 		//			System.out.println("TOKEN if: " + (char)token);
 					distance = i-h;
 					size = getVTokenSize(board,token, h, j);
@@ -91,54 +82,31 @@ public class UpRule implements GPSRule {
 		
 		return new Board(ans);
 	}
-	
-	public boolean isHorizontal(int token) {
-		if( (token >= 'a' && token <= 'z') || token == '0') {
-			return true;
-		}
-		return false;
+
+	@Override
+	public Integer getCost() {
+		return 1;
 	}
-	
-	public boolean isVertical(int token) {
-		if(token >= '1' && token <= '9') {
-			return true;
-		}
-		return false;
-	}
-	
-	private void copyBoard(int[][] tempBoard, int[][] board2) {
-		
-		for(int i = 0; i < board2.length ; i++) {
-			for(int j = 0; j <board2.length; j++) {
-				tempBoard[i][j] = board2[i][j];
-			}
-		}
-		
+
+	@Override
+	public String getName() {
+		return "Se mueve arriba la pieza";
 	}
 
 	private int getVTokenSize(int[][] board, int token, int i, int j) {
-	//	System.out.println("RECIBO TABLERO");
-	//	new Board(board).printBoard();
 		int size = 1;
 		if ( i < 5 && board[i+1][j] == token) {
 			for(int h=i+1;  h < board.length && board[h][j] == token; h++) {
 				size++;
 			}
 		}else {
-		//	System.out.println("Entro al que tenia que entrar, valor de i: " + i);
 			for(int h=i-1;  h >= 0; h--) {
 				if (board[h][j] != token) {
-		//			System.out.println("entro al break");
 					break;
 				}
 				size++;
-	//			System.out.println("Actualiza:" + size);
 			}
 		}
-	//	if(board[0][j] == token) {
-	//		size++;
-	//	}
-	//	System.out.println("Token: " + (char)token + "-i: " + i + "-j: " + j + " SIZE: "+size);
 		return size;
 	}
 
