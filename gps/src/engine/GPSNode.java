@@ -9,15 +9,15 @@ public class GPSNode {
 	private GPSNode parent;
 
 	private Integer cost;
-	
 	private int depth;
 
 	private int h;
-	
+	private int g;
+
 	public GPSNode(GPSState state, Integer cost) {
 		this(state, cost, 0);
 	}
-	
+
 	public GPSNode(GPSState state, Integer cost, int depth) {
 		super();
 		this.state = state;
@@ -25,11 +25,10 @@ public class GPSNode {
 		this.depth = depth;
 	}
 
-
 	public int getDepth() {
 		return depth;
 	}
-	
+
 	public GPSNode getParent() {
 		return parent;
 	}
@@ -45,14 +44,25 @@ public class GPSNode {
 	public Integer getCost() {
 		return cost;
 	}
-	
+
 	public int getH() {
 		return h;
 	}
-	
+
 	public void setH(int h) {
 		this.h = h;
-		
+	}
+
+	public int getG() {
+		return g;
+	}
+
+	public void setG(int g) {
+		this.g = g;
+	}
+
+	public int getF() {
+		return getG() + getH();
 	}
 
 	@Override
@@ -67,5 +77,4 @@ public class GPSNode {
 		return this.parent.getSolution() + "\n" + this.state;
 	}
 
-	
 }
