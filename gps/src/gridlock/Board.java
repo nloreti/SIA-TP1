@@ -130,16 +130,16 @@ public class Board {
 	
 	public int getBlock2Exit() {
 		int blocks = 0;
-		boolean count = false;
-		for(int j=0;j<this.size;j++) {
-			int token = board[blueBlock.getX()][j];
-			if ( token == 0 ) {
-				count = true;
-			}
-			if( count == true && token != 0 ) {
+		for(int j=5;board[2][j] != '0';j--) {
+			
+			int token = board[2][j];
+		//	printBoard();
+		//	System.out.println("T: " + (char)token + " I:" + blueBlock.getX() + " J:" + j);
+			if ( token != '.' && token != 0) {
 				blocks++;
 			}
 		}
+		///System.out.println("Blocks " + blocks);
 		return blocks;
 	}
 	

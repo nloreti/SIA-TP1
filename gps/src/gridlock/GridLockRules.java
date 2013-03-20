@@ -2,9 +2,9 @@ package gridlock;
 
 import java.util.List;
 
-import exception.NotAppliableException;
 import api.GPSRule;
 import api.GPSState;
+import exception.NotAppliableException;
 
 public class GridLockRules implements GPSRule {
 

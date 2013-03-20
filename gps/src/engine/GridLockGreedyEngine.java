@@ -8,6 +8,7 @@ public class GridLockGreedyEngine extends GPSEngine {
 	@Override
 	public void addNode(GPSNode node) {
 		node.setH(problem.getHValue(node.getState()));
+//		System.out.println(problem.getHValue(node.getState()));
 		if (open.isEmpty()) {
 			((LinkedList<GPSNode>) open).addFirst(node);
 			return;
@@ -18,13 +19,9 @@ public class GridLockGreedyEngine extends GPSEngine {
 		while (it.hasNext()) {
 			GPSNode n = it.next();
 			if (n.getDepth() == depth && node.getH() <= n.getH()) {
-				// if nodes have the same depth, enqueue node  
-				// only if the h() value is less than this element
 				((LinkedList<GPSNode>) open).add(index, node);
 				return;
 			} else if (n.getDepth() < depth) {
-				// if nodes in queue have less depth than this node, 
-				// enqueue it before them
 				((LinkedList<GPSNode>) open).add(index, node);
 				return;
 			}

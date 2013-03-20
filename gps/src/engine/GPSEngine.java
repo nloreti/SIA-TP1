@@ -1,13 +1,13 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import api.GPSProblem;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public abstract class GPSEngine {
 

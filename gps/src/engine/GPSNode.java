@@ -1,6 +1,6 @@
 package engine;
 
-import api.*;
+import api.GPSState;
 
 public class GPSNode {
 

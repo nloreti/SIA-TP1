@@ -57,7 +57,7 @@ public class Solver {
 				gps = new GridLockGreedyEngine();
 				strategy = SearchStrategy.GREEDY;
 			} else if (strategy_command.compareTo("AStar") == 0) {
-				gps = new GridLockAStarEngine();
+			    gps = new GridLockAStarEngine();
 				strategy = SearchStrategy.AStar;
 			}
 			gps.engine(problem, strategy);
