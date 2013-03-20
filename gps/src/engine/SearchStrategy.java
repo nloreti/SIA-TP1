@@ -4,5 +4,5 @@ public enum SearchStrategy {
 	BFS,
 	DFS,
 	AStar,
-	IDFS
+	IDFS, GREEDY
 }

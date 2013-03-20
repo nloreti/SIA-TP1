@@ -6,6 +6,7 @@ import parser.BoardParser;
 import engine.GPSEngine;
 import engine.GridLockBFSEngine;
 import engine.GridLockDFSEngine;
+import engine.GridLockGreedyEngine;
 import engine.GridLockIDFSEngine;
 import engine.SearchStrategy;
 import exception.BoardParsingException;
@@ -21,7 +22,7 @@ public class Solver {
 			System.out.println("Intente nuevamente ingresando correctamente los parametros");
 			return;
 		}
-		if ( ! (args[0].equalsIgnoreCase("DFS") || args[0].equalsIgnoreCase("BFS") || args[0].equalsIgnoreCase("IDFS") )) {
+		if ( ! (args[0].equalsIgnoreCase("DFS") || args[0].equalsIgnoreCase("BFS") || args[0].equalsIgnoreCase("IDFS") ||  args[0].equalsIgnoreCase("GREEDY") )) {
 			System.out.println("Programa mal invocado");
 			System.out.println("La estrategia no corresponde a una aceptada por el Programa - Inserte BFS | DFS | IDFS");
 			return;
@@ -49,7 +50,10 @@ public class Solver {
 			}else if ( strategy_command.compareTo("IDFS") == 0) {
 				gps = new GridLockIDFSEngine();
 				strategy = SearchStrategy.IDFS;
-			}	
+			}else if ( strategy_command.compareTo("GREEDY") == 0) {
+				gps = new GridLockGreedyEngine();
+				strategy = SearchStrategy.GREEDY;
+			}		
 			gps.engine(problem, strategy);
 		} catch (BoardParsingException e) {
 			e.printStackTrace();

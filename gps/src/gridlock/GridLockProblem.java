@@ -1,7 +1,9 @@
 package gridlock;
 
+import heuristic.Heuristic;
+import heuristic.HeuristicBlock;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import api.GPSProblem;
@@ -12,17 +14,18 @@ public class GridLockProblem implements GPSProblem {
 
 	protected Board initBoard;
 	protected List<GPSRule> rules;
+	protected Heuristic heuristic = new HeuristicBlock();
 
 	public GridLockProblem(Board board) {
 		this.initBoard = board;
 		rules = new ArrayList<GPSRule>();
 		initializeRules();
-		sortRules();
+//		sortRules();
 	}
 	
-	private void sortRules() {
-		//TODO: POR AHORA NADA;
-	}
+//	private void sortRules() {
+//		//TODO: POR AHORA NADA;
+//	}
 
 	private void initializeRules() {
 		rules.add(new UpRule());
@@ -48,23 +51,16 @@ public class GridLockProblem implements GPSProblem {
 
 	@Override
 	public Integer getHValue(GPSState state) {
-		throw new IllegalStateException();
+		return heuristic.getH(state);
 	}
 
 	public void invertRules() {
-//		List<GPSRule> inverted = new LinkedList<GPSRule>();
-//		for(GPSRule r: rules) {
-//			inverted.add(r);
-//		}
-//		rules = inverted;
-		GPSRule rule = rules.get(0);
-		rules.remove(0);
+		int min = 0;
+		int max = 3;
+		int random = min + (int)(Math.random() * ((max - min) + 1));
+		GPSRule rule = rules.get(random);
+		rules.remove(random);
 		rules.add(rule);
-		
-//		rule = rules.get(0);
-//		rules.remove(0);
-//		rules.add(rule);
-		
 	}
 
 

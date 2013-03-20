@@ -3,21 +3,12 @@ package gridlock;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.BoardUtils;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
 
 public class RightRule implements GPSRule {
-
-	@Override
-	public Integer getCost() {
-		return 1;
-	}
-
-	@Override
-	public String getName() {
-		return "Se mueve arriba la pieza";
-	}
 
 	@Override
 	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
@@ -47,15 +38,15 @@ public class RightRule implements GPSRule {
 			return null;
 		}
 		int[][] ans = new int[board.length][board.length];
-		copyBoard(ans,board);
+		BoardUtils.copyBoard(ans,board);
 		int rightToken = board[i][j+1];
 		int size,token,distance,k;
 	//	System.out.println("RIGTH TOKEN: " + (char)rightToken);
-		if ( isVertical(rightToken) ) {
+		if ( BoardUtils.isVertical(rightToken) ) {
 	//		System.out.println("ENTRO A VERTICAL");
 			return null;
 		}
-		else if ( isHorizontal(rightToken) ) {
+		else if ( BoardUtils.isHorizontal(rightToken) ) {
 			distance = 1;
 			size = getHTokenSize(board,rightToken, i, j+1);
 		//	System.out.println("SIZE: " + size);
@@ -69,10 +60,10 @@ public class RightRule implements GPSRule {
 			int h;
 			for(h = j+1; h < board.length; h++) {
 				token = board[i][h];
-				if (isVertical(token)) {
+				if (BoardUtils.isVertical(token)) {
 					return null;
 				}
-				if( isHorizontal(token)) {
+				if( BoardUtils.isHorizontal(token)) {
 					distance = h-j;
 					size = getHTokenSize(board,token, i, h);
 					for ( k = j; size>0; k++, size--) {
@@ -91,30 +82,18 @@ public class RightRule implements GPSRule {
 		
 		return new Board(ans);
 	}
-	public boolean isHorizontal(int token) {
-		if( (token >= 'a' && token <= 'z') || token == '0') {
-			return true;
-		}
-		return false;
-	}
 	
-	public boolean isVertical(int token) {
-		if(token >= '1' && token <= '9') {
-			return true;
-		}
-		return false;
-	}
-	
-	private void copyBoard(int[][] tempBoard, int[][] board2) {
-		
-		for(int i = 0; i < board2.length ; i++) {
-			for(int j = 0; j <board2.length; j++) {
-				tempBoard[i][j] = board2[i][j];
-			}
-		}
-		
+	@Override
+	public Integer getCost() {
+		return 1;
 	}
 
+	@Override
+	public String getName() {
+		return "Se mueve arriba la pieza";
+	}
+	
+	
 	private int getHTokenSize(int[][] board, int token, int i, int j) {
 		int size = 1;
 		if ( j < 5 && board[i][j+1] == token) {
