@@ -31,7 +31,7 @@ public class BoardUtils {
 				size++;
 			}
 		} else {
-			for (int h = i - 1; h > 0 && board[h][j] == token; h--) {
+			for (int h = i - 1; h >= 0 && board[h][j] == token; h--) {
 				size++;
 			}
 		}
