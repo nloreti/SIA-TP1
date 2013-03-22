@@ -8,9 +8,9 @@ import utils.BoardUtils;
 
 public class Board {
 
-	final  static int SIZE = 6;
-	final  static int LAST_COL = 5;
-	final  static int EXIT_ROW = 2;
+	final static int SIZE = 6;
+	final static int LAST_COL = 5;
+	final static int EXIT_ROW = 2;
 	private Position blueBlock;
 	private Token[][] board;
 	Map<Integer, Integer> blocks = new HashMap<Integer, Integer>();
@@ -158,37 +158,32 @@ public class Board {
 		return blocks;
 	}
 
-	//TODO CHINITO WORKING ON THIS
 	public int getAproxCost2Exit() {
 		int cost = 0;
-		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
+		for (int j = LAST_COL; j != 0 && board[EXIT_ROW][j].getValue() != '0'; j--) {
 			int token = board[EXIT_ROW][j].getValue();
-			if (token != '.' && token != '0') {
+			if (token != '.') {
 				int lenght = blocks.get(token);
-				cost += canBeFree(lenght, 2, j);
+				cost += canBeFree(lenght, j);
 			}
 		}
 		return cost;
 	}
 
-	private int canBeFree(int lenght, int i, int j) {
-		boolean isFree = false;
+	private int canBeFree(int lenght, int j) {
+		// me fijo para arriba
 		for (int h = j; h > 0; h--) {
-			if (board[i][j].getValue() == '.') {
-				isFree = true;
-				break;
+			if (board[h][j].getValue() == '.') {
+				return 1;
 			}
 		}
-		if (isFree == false) {
-			for (int k = j; k < BoardUtils.size; k++) {
-				if (board[i][j].getValue() == '.') {
-					isFree = true;
-					break;
-				}
+		// me fijo para abajo
+		for (int k = j; k < BoardUtils.size; k++) {
+			if (board[k][j].getValue() == '.') {
+				return 1;
 			}
 		}
-		return isFree == true ? 2 : 1;
-
+		return 2;
 	}
 
 }
