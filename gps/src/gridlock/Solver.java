@@ -1,5 +1,9 @@
 package gridlock;
 
+import heuristic.Heuristic;
+import heuristic.HeuristicBlock;
+import heuristic.HeuristicEnhanced;
+
 import java.io.File;
 
 import parser.BoardParser;
@@ -15,13 +19,16 @@ import exception.BoardParsingException;
 public class Solver {
 
 	public static void main(String[] args) {
-		// System.out.println(args[0].equalsIgnoreCase("IDFS"));
-		if (args.length != 2) {
+		//Chequeo que sean 3 los argumentos
+		if (args.length != 3) {
 			System.out.println("Programa mal invocado");
 			System.out
 					.println("Intente nuevamente ingresando correctamente los parametros");
+			System.out.println("Estrategia-a-Utilizar ruta-al-tablero heuristica");
 			return;
 		}
+		
+		//Parseo la estrategia
 		if (!(args[0].equalsIgnoreCase("DFS")
 				|| args[0].equalsIgnoreCase("BFS")
 				|| args[0].equalsIgnoreCase("IDFS")
@@ -32,6 +39,15 @@ public class Solver {
 					.println("La estrategia no corresponde a una aceptada por el Programa - Inserte BFS | DFS | IDFS");
 			return;
 		}
+		
+		//Parseo la Heuristica
+		Heuristic heuristic = null;
+		if ( args[2] == "h1") {
+			heuristic = new HeuristicBlock();
+		}else if (args[2] == "h2") {
+			heuristic = new HeuristicEnhanced();
+		}
+		
 		String path = args[1];
 		String strategy_command = args[0];
 		SearchStrategy strategy = null;
@@ -40,7 +56,7 @@ public class Solver {
 
 		try {
 			problem = new GridLockProblem(BoardParser.getInstance(board)
-					.getBoard());
+					.getBoard(), heuristic);
 			GPSEngine gps = null;
 			if (strategy_command.compareTo("DFS") == 0) {
 				gps = new GridLockDFSEngine();
