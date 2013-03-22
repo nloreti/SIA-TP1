@@ -16,7 +16,7 @@ public abstract class GPSEngine {
 	private List<GPSNode> closed;
 
 	protected GPSProblem problem;
-	
+
 	public GPSEngine() {
 		open = new LinkedList<GPSNode>();
 		closed = new ArrayList<GPSNode>();
@@ -61,41 +61,39 @@ public abstract class GPSEngine {
 		}
 	}
 
-	private  boolean isGoal(GPSNode currentNode) {
+	private boolean isGoal(GPSNode currentNode) {
 		return currentNode.getState() != null
-				&& currentNode.getState().isGoalState();//compare(problem.getGoalState());
+				&& currentNode.getState().isGoalState();// compare(problem.getGoalState());
 	}
 
-	protected  boolean explode(GPSNode node) {
-		if(problem.getRules() == null){
+	protected boolean explode(GPSNode node) {
+		if (problem.getRules() == null) {
 			System.err.println("No rules!");
 			return false;
 		}
-
+		
 		for (GPSRule rule : problem.getRules()) {
-			
-			List<GPSState> listState = new ArrayList<GPSState>();
+			GPSState newState = null;
 			try {
-				listState = rule.evalRule(node.getState());
+				newState = rule.evalRule(node.getState());
+				
 			} catch (NotAppliableException e) {
 				// Do nothing
 			}
-			for (GPSState newState : listState) {
-				if (newState != null
-						&& !checkBranch(node, newState)
-						&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
-								newState)) {
-					GPSNode newNode = new GPSNode(newState, node.getCost()
-							+ rule.getCost());
-					newNode.setParent(node);
-					addNode(newNode);
-				}
+			if (newState != null
+					&& !checkBranch(node, newState)
+					&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
+							newState)) {
+				GPSNode newNode = new GPSNode(newState, node.getCost()
+						+ rule.getCost());
+				newNode.setParent(node);
+				addNode(newNode);
 			}
 		}
 		return true;
 	}
 
-	private  boolean checkOpenAndClosed(Integer cost, GPSState state) {
+	private boolean checkOpenAndClosed(Integer cost, GPSState state) {
 		for (GPSNode openNode : open) {
 			if (openNode.getState().compare(state) && openNode.getCost() < cost) {
 				return true;
@@ -110,7 +108,7 @@ public abstract class GPSEngine {
 		return false;
 	}
 
-	private  boolean checkBranch(GPSNode parent, GPSState state) {
+	private boolean checkBranch(GPSNode parent, GPSState state) {
 		if (parent == null) {
 			return false;
 		}
@@ -118,7 +116,8 @@ public abstract class GPSEngine {
 				|| state.compare(parent.getState());
 	}
 
-	public abstract  void addNode(GPSNode node);
+	public abstract void addNode(GPSNode node);
+
 	public abstract String getStrategyName();
 
 }

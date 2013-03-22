@@ -31,5 +31,5 @@ public interface GPSRule {
 	 * @throws NotAppliableException if the rule can not be
 	 * applied to the received state.
 	 */
-	List<GPSState> evalRule(GPSState state) throws NotAppliableException;
+	GPSState evalRule(GPSState state) throws NotAppliableException;
 }

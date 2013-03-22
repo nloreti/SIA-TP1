@@ -1,8 +1,5 @@
 package gridlock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import utils.BoardUtils;
 import api.GPSRule;
 import api.GPSState;
@@ -10,79 +7,78 @@ import exception.NotAppliableException;
 
 public class UpRule implements GPSRule {
 
+	Token token;
+
+	public UpRule(Token token) {
+		this.token = token;
+	}
+
+	
 	@Override
-	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
-		List<GPSState> ans = new ArrayList<GPSState>();
-		Board board = ((GridLockState)state).getBoard();
-		int [][] rawBoard = board.getRawBoard();
+	public GPSState evalRule(GPSState state) throws NotAppliableException {
+	//	System.out.println("UpRule - Token: " + (char)token.getValue() + " I:" + token.getI() + " J:" + token.getJ());	
+		GPSState ans = null;
+		Board board = ((GridLockState) state).getBoard();
+		Token[][] rawBoard = board.getRawBoard();
 		Board temp;
-		
-		for(int i = 0; i < board.getSize(); i++) {
-			for(int j=0; j < board.getSize(); j++) {
-				if(rawBoard[i][j] == '.'){
-					temp = checkUP(rawBoard, i,j);
-					if (temp != null) {
-						ans.add(new GridLockState(temp));
-					}
-				}
-			}
+		temp = checkUP(rawBoard);
+		if (temp != null) {
+			ans = new GridLockState(temp);
 		}
+
 		return ans;
 	}
 	
 	
-	private Board checkUP(int[][] board, int i, int j) {
-		if ( i==0) {
+	public Board checkUP(Token[][] board) {
+		int size, tokenValue, distance, k;
+		int i = token.getI();
+		int j = token.getJ();
+		//int[][] board = BoardUtils.getIntBoard(tokenBoard);
+
+		if (i == 0) {
 			return null;
 		}
-		int[][] ans = new int[board.length][board.length];
-		BoardUtils.copyBoard(ans,board);
-		int upToken = board[i-1][j];
-		int size,token,distance,k;
-		//System.out.println("DOWN TOKEN: " + (char)downToken);
-		if ( BoardUtils.isHorizontal(upToken) ) {
-		//	System.out.println("ENTRO A HORIZONTAL");
+	//	int[][] ans = new int[board.length][board.length];
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		Token upToken = board[i - 1][j];
+		if (BoardUtils.isHorizontal(upToken.getValue())) {
 			return null;
-		}
-		else if ( BoardUtils.isVertical(upToken) ) {
-			distance = 1;
-			size = getVTokenSize(board, upToken, i-1, j);
-	//		System.out.println("SIZE: " + size);
-			for ( k = i; size>0; k--, size--) {
-				ans[k][j] = upToken;
-			}
-			for( ; distance > 0 && k >= 0; distance--, k--) {
-				ans[k][j] = '.';
-			}
-		}else {
+		} else if (BoardUtils.isVertical(upToken.getValue())) {
+//			System.out.println("Entro al corto - " + i + " " + j);
+			size = BoardUtils.getVTokenSize(board, upToken.getValue(), i - 1, j);
+			Token aux = ans[i-size][j];
+			ans[i-size][j] = token;
+			ans[i][j] = aux;
+		} else {
+	//		System.out.println("Entro al largo - " + i + " " + j);
 			int h;
-			for(h = i-1; h >= 0; h--) {
-				token = board[h][j];
-				if (BoardUtils.isHorizontal(token)) {
+			for (h = i - 1; h >= 0; h--) {
+				tokenValue = board[h][j].getValue();
+				if (BoardUtils.isHorizontal(tokenValue)) {
 					return null;
 				}
-				if( BoardUtils.isVertical(token)) {
-		//			System.out.println("TOKEN if: " + (char)token);
+				if (BoardUtils.isVertical(tokenValue)) {
 					distance = i-h;
-					size = getVTokenSize(board,token, h, j);
-			//		System.out.println("SIZE " + size);
-					for ( k = i; size>0; k--, size--) {
-						ans[k][j] = token;
-					}
-					for( ; distance > 0 && k>=0; distance--, k--) {
-						ans[k][j] = '.';
+					size = BoardUtils.getVTokenSize(board, tokenValue, h, j);
+		//			System.out.println("Size " + size + " - " + "distance: " + distance);
+					for (k = i; size > 0; k--, size--) {
+			//			System.out.println("k: " + k + " k+size:" + (k+distance) + " j:" + j);
+						Token aux = ans[k-distance][j];
+						ans[k-distance][j] = ans[k][j];
+						ans[k][j] = aux;
 					}
 					break;
 				}
 			}
-			if(h==0) {
+			if (h == -1) {
 				return null;
 			}
 		}
-		
+
 		return new Board(ans);
 	}
-
 	@Override
 	public Integer getCost() {
 		return 1;
@@ -91,23 +87,6 @@ public class UpRule implements GPSRule {
 	@Override
 	public String getName() {
 		return "Se mueve arriba la pieza";
-	}
-
-	private int getVTokenSize(int[][] board, int token, int i, int j) {
-		int size = 1;
-		if ( i < 5 && board[i+1][j] == token) {
-			for(int h=i+1;  h < board.length && board[h][j] == token; h++) {
-				size++;
-			}
-		}else {
-			for(int h=i-1;  h >= 0; h--) {
-				if (board[h][j] != token) {
-					break;
-				}
-				size++;
-			}
-		}
-		return size;
 	}
 
 }

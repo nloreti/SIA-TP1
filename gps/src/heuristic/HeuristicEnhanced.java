@@ -4,11 +4,12 @@ import gridlock.Board;
 import gridlock.GridLockState;
 import api.GPSState;
 
-public class HeuristicBlock extends Heuristic{
+public class HeuristicEnhanced extends Heuristic {
 
 	@Override
 	public int getH(GPSState state) {
 		Board board = ((GridLockState)state).getBoard();
-		return board.getBlock2Exit();
+		return board.getAproxCost2Exit();
 	}
+
 }

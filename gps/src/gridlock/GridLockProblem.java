@@ -1,7 +1,7 @@
 package gridlock;
 
 import heuristic.Heuristic;
-import heuristic.HeuristicBlock;
+import heuristic.HeuristicEnhanced;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class GridLockProblem implements GPSProblem {
 
 	protected Board initBoard;
 	protected List<GPSRule> rules;
-	protected Heuristic heuristic = new HeuristicBlock();
+	protected Heuristic heuristic = new HeuristicEnhanced();
 
 	public GridLockProblem(Board board) {
 		this.initBoard = board;
@@ -28,10 +28,17 @@ public class GridLockProblem implements GPSProblem {
 //	}
 
 	private void initializeRules() {
-		rules.add(new UpRule());
-		rules.add(new DownRule());
-		rules.add(new LeftRule());
-		rules.add(new RightRule());
+		Token[][] rawboard = initBoard.getRawBoard();
+		for (int i = 0; i < initBoard.getSize(); i++) {
+			for (int j = 0; j < initBoard.getSize(); j++) {
+				if( rawboard[i][j].value == '.') {
+					rules.add(new UpRule(rawboard[i][j]));
+					rules.add(new DownRule(rawboard[i][j]));
+					rules.add(new LeftRule(rawboard[i][j]));
+					rules.add(new RightRule(rawboard[i][j]));
+				}
+			}
+		}
 	}
 
 	@Override

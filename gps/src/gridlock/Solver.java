@@ -35,11 +35,9 @@ public class Solver {
 		String path = args[1];
 		String strategy_command = args[0];
 		SearchStrategy strategy = null;
-		// path = "files/board1.txt";
-		// strategy_command = "IDFS";
 		File board = new File(path);
-		// File board = new File("files/board2.txt");
 		GridLockProblem problem;
+
 		try {
 			problem = new GridLockProblem(BoardParser.getInstance(board)
 					.getBoard());

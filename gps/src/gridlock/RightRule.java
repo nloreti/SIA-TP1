@@ -1,8 +1,5 @@
 package gridlock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import utils.BoardUtils;
 import api.GPSRule;
 import api.GPSState;
@@ -10,76 +7,72 @@ import exception.NotAppliableException;
 
 public class RightRule implements GPSRule {
 
+	Token token;
+
+	public RightRule(Token token) {
+		this.token = token;
+	}
+
 	@Override
-	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
-		List<GPSState> ans = new ArrayList<GPSState>();
-		Board board = ((GridLockState)state).getBoard();
-		int [][] rawBoard = board.getRawBoard();
-		
-		for(int i = 0; i < board.getSize(); i++) {
-			for(int j=0; j < board.getSize(); j++) {
-				if(rawBoard[i][j] == '.'){
-					Board temp;
-					temp = checkRIGHT(rawBoard, i,j);
-					if (temp != null) {
-						ans.add(new GridLockState(temp));
-					}
-				}
-			}
+	public GPSState evalRule(GPSState state) throws NotAppliableException {
+		GPSState ans = null;
+		Board board = ((GridLockState) state).getBoard();
+		Token[][] rawBoard = board.getRawBoard();
+		Board temp;
+		temp = checkRIGHT(rawBoard);
+		if (temp != null) {
+			ans = new GridLockState(temp);
 		}
+
 		return ans;
 	}
-	
-	
-	private Board checkRIGHT(int[][] board, int i, int j) {
-		
-	//	System.out.println("x:" + i + "y: " + j);
-		if ( j==5 ) {
+
+	public Board checkRIGHT(Token[][] board) {
+		int size, tokenValue, distance, k;
+		int i = token.getI();
+		int j = token.getJ();
+
+		if (j == 5) {
 			return null;
 		}
-		int[][] ans = new int[board.length][board.length];
-		BoardUtils.copyBoard(ans,board);
-		int rightToken = board[i][j+1];
-		int size,token,distance,k;
-	//	System.out.println("RIGTH TOKEN: " + (char)rightToken);
-		if ( BoardUtils.isVertical(rightToken) ) {
-	//		System.out.println("ENTRO A VERTICAL");
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		Token rightToken = board[i][j+1];
+		if (BoardUtils.isVertical(rightToken.getValue())) {
 			return null;
-		}
-		else if ( BoardUtils.isHorizontal(rightToken) ) {
-			distance = 1;
-			size = getHTokenSize(board,rightToken, i, j+1);
-		//	System.out.println("SIZE: " + size);
-			for ( k = j; size>0; k++, size--) {
-				ans[i][k] = rightToken;
-			}
-			for( ; distance > 0 && k < board.length; distance--, k++) {
-				ans[i][k] = '.';
-			}
-		}else {
+		} else if (BoardUtils.isHorizontal(rightToken.getValue())) {
+	//		System.out.println("Entro al corto - " + i + " " + j);
+			size = BoardUtils.getHTokenSize(board, rightToken.getValue(), i, j+1);
+			Token aux = ans[i][j+size];
+			ans[i][j+size] = token;
+			ans[i][j] = aux;
+		} else {
+		//	System.out.println("Entro al largo - " + i + " " + j);
 			int h;
-			for(h = j+1; h < board.length; h++) {
-				token = board[i][h];
-				if (BoardUtils.isVertical(token)) {
+			for (h = j + 1; h < board.length; h++) {
+				tokenValue = board[i][h].getValue();
+				if (BoardUtils.isVertical(tokenValue)) {
 					return null;
 				}
-				if( BoardUtils.isHorizontal(token)) {
+				if (BoardUtils.isHorizontal(tokenValue)) {
+			//		System.out.println("H: " + h + " token: " + (char)tokenValue);
 					distance = h-j;
-					size = getHTokenSize(board,token, i, h);
-					for ( k = j; size>0; k++, size--) {
-						ans[i][k] = token;
-					}
-					for( ; distance > 0 && k < board.length; distance--, k++) {
-						ans[i][k] = '.';
+					size = getHTokenSize(board, tokenValue, i, h);
+				//	System.out.println("Size " + size + " - " + "distance: " + distance);
+					for (k = j; size > 0; k++, size--) {
+					//	System.out.println("k: " + k + " k+size:" + (k+distance) + " j:" + j);
+						Token aux = ans[i][k+distance];
+						ans[i][k+distance] = ans[i][k];
+						ans[i][k] = aux;
 					}
 					break;
 				}
 			}
-			if(h==0) {
+			if (h == 6) {
 				return null;
 			}
 		}
-		
+
 		return new Board(ans);
 	}
 	
@@ -92,16 +85,15 @@ public class RightRule implements GPSRule {
 	public String getName() {
 		return "Se mueve arriba la pieza";
 	}
-	
-	
-	private int getHTokenSize(int[][] board, int token, int i, int j) {
+
+	private int getHTokenSize(Token[][] board, int token, int i, int j) {
 		int size = 1;
-		if ( j < 5 && board[i][j+1] == token) {
-			for(int h=j+1;  h < board.length && board[i][h] == token; h++) {
+		if (j < 5 && board[i][j + 1].getValue() == token) {
+			for (int h = j + 1; h < board.length && board[i][h].getValue() == token; h++) {
 				size++;
 			}
-		}else {
-			for(int h=j-1;  h >= 0 && board[i][h] == token; h--) {
+		} else {
+			for (int h = j - 1; h >= 0 && board[i][h].getValue() == token; h--) {
 				size++;
 			}
 		}

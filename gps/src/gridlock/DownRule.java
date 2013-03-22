@@ -1,13 +1,17 @@
 package gridlock;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import utils.BoardUtils;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
 
 public class DownRule implements GPSRule {
+
+	Token token;
+
+	public DownRule(Token token) {
+		this.token = token;
+	}
 
 	@Override
 	public Integer getCost() {
@@ -20,114 +24,74 @@ public class DownRule implements GPSRule {
 	}
 
 	@Override
-	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
-		List<GPSState> ans = new ArrayList<GPSState>();
-		Board board = ((GridLockState)state).getBoard();
-		int [][] rawBoard = board.getRawBoard();
+	public GPSState evalRule(GPSState state) throws NotAppliableException {
+	//	System.out.println("DownRule - Token: " + (char)token.getValue() + " I:" + token.getI() + " J:" + token.getJ());	
+		GPSState ans = null;
+		Board board = ((GridLockState) state).getBoard();
+		Token[][] rawBoard = board.getRawBoard();
 		
-		for(int i = 0; i < board.getSize(); i++) {
-			for(int j=0; j < board.getSize(); j++) {
-				if(rawBoard[i][j] == '.'){
-					Board temp;
-					temp = checkDOWN(rawBoard, i,j);
-					if (temp != null) {
-						ans.add(new GridLockState(temp));
-					}
-				}
-			}
+		Board temp;
+	//	System.out.println("Original");
+	//	board.printBoard();
+		temp = checkDOWN(rawBoard);
+		
+		if (temp != null) {
+	//		System.out.println("Movido");
+	//		temp.printBoard();
+			ans = new GridLockState(temp);
 		}
+
 		return ans;
 	}
-	
-	
-	private Board checkDOWN(int[][] board, int i, int j) {
-		if ( i==5 ) {
+
+	public Board checkDOWN(Token[][] board) {
+		int size, tokenValue, distance, k;
+		int i = token.getI();
+		int j = token.getJ();
+		//int[][] board = BoardUtils.getIntBoard(tokenBoard);
+
+		if (i == 5) {
 			return null;
 		}
-		int[][] ans = new int[board.length][board.length];
-		copyBoard(ans,board);
-		int downToken = board[i+1][j];
-		int size,token,distance,k;
-		//System.out.println("DOWN TOKEN: " + (char)downToken);
-		if ( isHorizontal(downToken) ) {
-		//	System.out.println("ENTRO A HORIZONTAL");
+	//	int[][] ans = new int[board.length][board.length];
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		Token downToken = board[i + 1][j];
+		if (BoardUtils.isHorizontal(downToken.getValue())) {
 			return null;
-		}
-		else if ( isVertical(downToken) ) {
-			distance = 1;
-			size = getVTokenSize(board, downToken, i+1, j);
-	//		System.out.println("SIZE: " + size);
-			for ( k = i; size>0; k++, size--) {
-				ans[k][j] = downToken;
-			}
-			for( ; distance > 0 && k < board.length; distance--, k++) {
-				ans[k][j] = '.';
-			}
-		}else {
+		} else if (BoardUtils.isVertical(downToken.getValue())) {
+		//	System.out.println("Entro al corto");
+			size = BoardUtils.getVTokenSize(board, downToken.getValue(), i + 1, j);
+			Token aux = ans[i+size][j];
+			ans[i+size][j] = token;
+			ans[i][j] = aux;
+		} else {
+	//		System.out.println("Entro al largo - " + i + " " + j);
 			int h;
-			for(h = i+1; h < board.length; h++) {
-				token = board[h][j];
-				if (isHorizontal(token)) {
+			for (h = i + 1; h < board.length; h++) {
+				tokenValue = board[h][j].getValue();
+				if (BoardUtils.isHorizontal(tokenValue)) {
 					return null;
 				}
-				if( isVertical(token)) {
-		//			System.out.println("TOKEN if: " + (char)token);
-					distance = h-i;
-					size = getVTokenSize(board,token, h, j);
-			//		System.out.println("SIZE " + size);
-					for ( k = i; size>0; k++, size--) {
-						ans[k][j] = token;
-					}
-					for( ; distance > 0 && k<board.length; distance--, k++) {
-						ans[k][j] = '.';
+				if (BoardUtils.isVertical(tokenValue)) {
+					distance = h - i;
+					size = BoardUtils.getVTokenSize(board, tokenValue, h, j);
+		//			System.out.println("Size " + size + " - " + "distance: " + distance);
+					for (k = i; size > 0; k++, size--) {
+			//			System.out.println("k: " + k + " k+size:" + (k+distance) + " j:" + j);
+						Token aux = ans[k+distance][j];
+						ans[k+distance][j] = ans[k][j];
+						ans[k][j] = aux;
 					}
 					break;
 				}
 			}
-			if(h==0) {
+			if (h == 6) {
 				return null;
 			}
 		}
-		
-		return new Board(ans);
-	}
-	
-	public boolean isHorizontal(int token) {
-		if( (token >= 'a' && token <= 'z') || token == '0') {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isVertical(int token) {
-		if(token >= '1' && token <= '9') {
-			return true;
-		}
-		return false;
-	}
-	
-	private void copyBoard(int[][] tempBoard, int[][] board2) {
-		
-		for(int i = 0; i < board2.length ; i++) {
-			for(int j = 0; j <board2.length; j++) {
-				tempBoard[i][j] = board2[i][j];
-			}
-		}
-		
-	}
 
-	private int getVTokenSize(int[][] board, int token, int i, int j) {
-		int size = 1;
-		if ( i < 5 && board[i+1][j] == token) {
-			for(int h=i+1;  h < board.length && board[h][j] == token; h++) {
-				size++;
-			}
-		}else {
-			for(int h=i-1;  h > 0 && board[h][j] == token; h--) {
-				size++;
-			}
-		}
-		return size;
+		return new Board(ans);
 	}
 
 }
