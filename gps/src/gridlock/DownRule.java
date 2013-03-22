@@ -31,13 +31,14 @@ public class DownRule implements GPSRule {
 		Token[][] rawBoard = board.getRawBoard();
 		
 		Board temp;
-	//	System.out.println("Original");
-	//	board.printBoard();
 		temp = checkDOWN(rawBoard);
 		
 		if (temp != null) {
-	//		System.out.println("Movido");
-	//		temp.printBoard();
+//			System.out.println("Original");
+//			board.printBoard();
+//			System.out.println("Movido");
+//			temp.printBoard();
+//			System.out.println("---------------");
 			ans = new GridLockState(temp);
 		}
 
@@ -45,6 +46,15 @@ public class DownRule implements GPSRule {
 	}
 
 	public Board checkDOWN(Token[][] board) {
+		
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		for(int x=0; x <6;x++) {
+			for(int y=0; y<6;y++) {
+				ans[x][y].setI(x);
+				ans[x][y].setJ(y);
+			}
+		}
 		int size, tokenValue, distance, k;
 		int i = token.getI();
 		int j = token.getJ();
@@ -54,8 +64,7 @@ public class DownRule implements GPSRule {
 			return null;
 		}
 	//	int[][] ans = new int[board.length][board.length];
-		Token[][] ans = new Token[6][6];
-		BoardUtils.copyBoard(ans, board);
+		
 		Token downToken = board[i + 1][j];
 		if (BoardUtils.isHorizontal(downToken.getValue())) {
 			return null;
@@ -91,6 +100,8 @@ public class DownRule implements GPSRule {
 			}
 		}
 
+		
+		
 		return new Board(ans);
 	}
 

@@ -31,6 +31,14 @@ public class UpRule implements GPSRule {
 	
 	
 	public Board checkUP(Token[][] board) {
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		for(int x=0; x <6;x++) {
+			for(int y=0; y<6;y++) {
+				ans[x][y].setI(x);
+				ans[x][y].setJ(y);
+			}
+		}
 		int size, tokenValue, distance, k;
 		int i = token.getI();
 		int j = token.getJ();
@@ -40,8 +48,7 @@ public class UpRule implements GPSRule {
 			return null;
 		}
 	//	int[][] ans = new int[board.length][board.length];
-		Token[][] ans = new Token[6][6];
-		BoardUtils.copyBoard(ans, board);
+		
 		Token upToken = board[i - 1][j];
 		if (BoardUtils.isHorizontal(upToken.getValue())) {
 			return null;
@@ -77,6 +84,7 @@ public class UpRule implements GPSRule {
 			}
 		}
 
+		
 		return new Board(ans);
 	}
 	@Override

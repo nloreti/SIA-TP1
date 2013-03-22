@@ -44,8 +44,8 @@ public class Test {
 					if( rawboard[i][j].value == '.') {
 					//	rules.add(new UpRule(rawboard[i][j]));
 					//	rules.add(new DownRule(rawboard[i][j]));
-						rules.add(new LeftRule(rawboard[i][j]));
-					//	rules.add(new RightRule(rawboard[i][j]));
+					//	rules.add(new LeftRule(rawboard[i][j]));
+						rules.add(new RightRule(rawboard[i][j]));
 					}
 				}
 			}
@@ -53,7 +53,7 @@ public class Test {
 		for (GPSRule rule : rules) {
 		//	System.out.println("ORIGINAL");
 	//		board1.printBoard();
-			Board test = ((LeftRule)rule).checkLEFT(board1.getRawBoard());
+			Board test = ((RightRule)rule).checkRIGHT(board1.getRawBoard());
 			if (test != null) {
 				test.printBoard();
 			}

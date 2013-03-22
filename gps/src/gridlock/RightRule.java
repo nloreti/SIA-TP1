@@ -28,6 +28,14 @@ public class RightRule implements GPSRule {
 	}
 
 	public Board checkRIGHT(Token[][] board) {
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		for(int x=0; x <6;x++) {
+			for(int y=0; y<6;y++) {
+				ans[x][y].setI(x);
+				ans[x][y].setJ(y);
+			}
+		}
 		int size, tokenValue, distance, k;
 		int i = token.getI();
 		int j = token.getJ();
@@ -35,14 +43,21 @@ public class RightRule implements GPSRule {
 		if (j == 5) {
 			return null;
 		}
-		Token[][] ans = new Token[6][6];
-		BoardUtils.copyBoard(ans, board);
+		
 		Token rightToken = board[i][j+1];
 		if (BoardUtils.isVertical(rightToken.getValue())) {
 			return null;
 		} else if (BoardUtils.isHorizontal(rightToken.getValue())) {
 	//		System.out.println("Entro al corto - " + i + " " + j);
-			size = BoardUtils.getHTokenSize(board, rightToken.getValue(), i, j+1);
+			size = getHTokenSize(board, rightToken.getValue(), i, j+1);
+//			System.out.println("");
+//			for(int a=0;a<6;a++) {
+//				for (int b=0;b<6;b++) {
+//					System.out.print((char)board[a][b].getValue() +"(" + board[a][b].getI() + ","+ board[a][b].getJ() +")"+ " ");
+//				}
+//				System.out.println("");
+//			}
+//			System.out.println("i:" + i + " J:" + j + "size "+ size + "Token: " + (char)rightToken.getValue() + "i:" + rightToken.getI() + "j:" +rightToken.getJ());
 			Token aux = ans[i][j+size];
 			ans[i][j+size] = token;
 			ans[i][j] = aux;
@@ -73,6 +88,7 @@ public class RightRule implements GPSRule {
 			}
 		}
 
+		
 		return new Board(ans);
 	}
 	

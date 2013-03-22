@@ -40,6 +40,17 @@ public class LeftRule implements GPSRule {
 	
 	
 	public Board checkLEFT(Token[][] board) {
+		
+		Token[][] ans = new Token[6][6];
+		BoardUtils.copyBoard(ans, board);
+		
+		for(int x=0; x <6;x++) {
+			for(int y=0; y<6;y++) {
+				ans[x][y].setI(x);
+				ans[x][y].setJ(y);
+			}
+		}
+
 		int size, tokenValue, distance, k;
 		int i = token.getI();
 		int j = token.getJ();
@@ -47,8 +58,7 @@ public class LeftRule implements GPSRule {
 		if (j == 0) {
 			return null;
 		}
-		Token[][] ans = new Token[6][6];
-		BoardUtils.copyBoard(ans, board);
+
 		Token leftToken = board[i][j-1];
 		if (BoardUtils.isVertical(leftToken.getValue())) {
 			return null;
@@ -84,7 +94,6 @@ public class LeftRule implements GPSRule {
 				return null;
 			}
 		}
-
 		return new Board(ans);
 	}
 	
