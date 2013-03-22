@@ -6,9 +6,9 @@ public class GridLockState implements GPSState {
 
 	private Board board;
 
-	public GridLockState(Board borad) {
+	public GridLockState(Board board) {
 		super();
-		this.board = borad;
+		this.board = board;
 	}
 
 	public Board getBoard() {
