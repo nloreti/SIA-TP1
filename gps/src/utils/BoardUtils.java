@@ -82,11 +82,11 @@ public class BoardUtils {
 
 	}
 
-	public static void checkCorrect(Token[][] board) {
+	public static void checkCorrect(Token[][] board1) {
 		for (int x = 0; x < BoardUtils.size; x++) {
 			for (int y = 0; y < BoardUtils.size; y++) {
-				board[x][y].setI(x);
-				board[x][y].setJ(y);
+				board1[x][y].setI(x);
+				board1[x][y].setJ(y);
 			}
 		}
 

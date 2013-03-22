@@ -19,16 +19,18 @@ import exception.BoardParsingException;
 public class Solver {
 
 	public static void main(String[] args) {
-		//Chequeo que sean 3 los argumentos
-		if (args.length != 3) {
+
+		// Chequeo que sean 2 o mas los argumentos
+		if (args.length < 2) {
 			System.out.println("Programa mal invocado");
 			System.out
 					.println("Intente nuevamente ingresando correctamente los parametros");
-			System.out.println("Estrategia-a-Utilizar ruta-al-tablero heuristica");
+			System.out
+					.println("Estrategia-a-Utilizar ruta-al-tablero heuristica");
 			return;
 		}
-		
-		//Parseo la estrategia
+
+		// Parseo la estrategia
 		if (!(args[0].equalsIgnoreCase("DFS")
 				|| args[0].equalsIgnoreCase("BFS")
 				|| args[0].equalsIgnoreCase("IDFS")
@@ -39,15 +41,19 @@ public class Solver {
 					.println("La estrategia no corresponde a una aceptada por el Programa - Inserte BFS | DFS | IDFS");
 			return;
 		}
-		
-		//Parseo la Heuristica
+
+		// Parseo la Heuristica
+		System.out.println(args[2]);
 		Heuristic heuristic = null;
-		if ( args[2] == "h1") {
-			heuristic = new HeuristicBlock();
-		}else if (args[2] == "h2") {
-			heuristic = new HeuristicEnhanced();
+		if (args.length == 3) {
+			if (args[2].equals("h1")) {
+				heuristic = new HeuristicBlock();
+			} else if (args[2].equals("h2")) {
+				System.out.println("Entro en h2");
+				heuristic = new HeuristicEnhanced();
+			}
 		}
-		
+
 		String path = args[1];
 		String strategy_command = args[0];
 		SearchStrategy strategy = null;
@@ -71,7 +77,7 @@ public class Solver {
 				gps = new GridLockGreedyEngine();
 				strategy = SearchStrategy.GREEDY;
 			} else if (strategy_command.compareTo("AStar") == 0) {
-			    gps = new GridLockAStarEngine();
+				gps = new GridLockAStarEngine();
 				strategy = SearchStrategy.AStar;
 			}
 			gps.engine(problem, strategy);

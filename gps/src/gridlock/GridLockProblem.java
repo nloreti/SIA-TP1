@@ -19,6 +19,7 @@ public class GridLockProblem implements GPSProblem {
 		this.initBoard = board;
 		rules = new ArrayList<GPSRule>();
 		initializeRules();
+		this.heuristic = heuristic;
 	}
 
 	private void initializeRules() {

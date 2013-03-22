@@ -31,6 +31,7 @@ public class UpRule implements GPSRule {
 
 	public Board checkUP(Token[][] board) {
 		Token[][] ans = new Token[BoardUtils.size][BoardUtils.size];
+		BoardUtils.copyBoard(ans, board);
 		BoardUtils.checkCorrect(ans);
 		int size, tokenValue, distance, k;
 		int i = token.getI();
