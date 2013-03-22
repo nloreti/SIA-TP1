@@ -27,8 +27,6 @@ public class GridLockState implements GPSState {
 
 	@Override
 	public boolean isGoalState() {
-		// board.printBoard();
-		// System.out.println(board.isResolved());
 		return board.isResolved();
 	}
 

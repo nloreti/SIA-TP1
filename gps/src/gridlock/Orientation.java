@@ -1,6 +1,5 @@
 package gridlock;
 
 public enum Orientation {
-	HOR,
-	VERT,
+	HOR, VERT,
 }

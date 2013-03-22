@@ -12,7 +12,7 @@ public class GridLockDFSEngine extends GPSEngine {
 	public void addNode(GPSNode node) {
 		((LinkedList<GPSNode>) open).addFirst(node);
 	}
-	
+
 	@Override
 	public String getStrategyName() {
 		return "DFS";

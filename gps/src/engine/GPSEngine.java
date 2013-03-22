@@ -72,12 +72,12 @@ public abstract class GPSEngine {
 			System.err.println("No rules!");
 			return false;
 		}
-		
+
 		for (GPSRule rule : problem.getRules()) {
 			GPSState newState = null;
 			try {
 				newState = rule.evalRule(node.getState());
-				
+
 			} catch (NotAppliableException e) {
 				// Do nothing
 			}
@@ -88,7 +88,7 @@ public abstract class GPSEngine {
 				GPSNode newNode = new GPSNode(newState, node.getCost()
 						+ rule.getCost());
 				newNode.setParent(node);
-				//((GridLockState) newNode.getState()).getBoard().printBoard();
+				// ((GridLockState) newNode.getState()).getBoard().printBoard();
 				addNode(newNode);
 			}
 		}
