@@ -8,6 +8,7 @@ import api.GPSProblem;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
+import gridlock.GridLockState;
 
 public abstract class GPSEngine {
 
@@ -87,6 +88,7 @@ public abstract class GPSEngine {
 				GPSNode newNode = new GPSNode(newState, node.getCost()
 						+ rule.getCost());
 				newNode.setParent(node);
+				//((GridLockState) newNode.getState()).getBoard().printBoard();
 				addNode(newNode);
 			}
 		}

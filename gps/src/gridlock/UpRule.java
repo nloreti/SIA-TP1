@@ -53,8 +53,9 @@ public class UpRule implements GPSRule {
 		if (BoardUtils.isHorizontal(upToken.getValue())) {
 			return null;
 		} else if (BoardUtils.isVertical(upToken.getValue())) {
-//			System.out.println("Entro al corto - " + i + " " + j);
+			
 			size = BoardUtils.getVTokenSize(board, upToken.getValue(), i - 1, j);
+	//		System.out.println("Entro al corto - " + i + " " + j + " size: " + size + " Token: " + (char)upToken.getValue());	
 			Token aux = ans[i-size][j];
 			ans[i-size][j] = token;
 			ans[i][j] = aux;
