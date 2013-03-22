@@ -43,8 +43,12 @@ public class Solver {
 		}
 
 		// Parseo la Heuristica
-		System.out.println(args[2]);
 		Heuristic heuristic = null;
+		if (args.length == 2 && (args[0].equalsIgnoreCase("GREEDY") || args[0].equalsIgnoreCase("AStar"))){
+			System.out.println("Programa mal invocado");
+			System.out.println("Error: Debe ingresar una Heuristica como tercer parametro si utiliza una estrategia Greedy o A*");
+			return;
+		}
 		if (args.length == 3) {
 			if (args[2].equals("h1")) {
 				heuristic = new HeuristicBlock();
