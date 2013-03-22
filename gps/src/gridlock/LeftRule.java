@@ -44,8 +44,9 @@ public class LeftRule implements GPSRule {
 		Token[][] ans = new Token[6][6];
 		BoardUtils.copyBoard(ans, board);
 		
-		for(int x=0; x <6;x++) {
-			for(int y=0; y<6;y++) {
+		//TODO para que está esto?
+		for(int x=0; x < Board.SIZE ;x++) {
+			for(int y=0; y < Board.SIZE;y++) {
 				ans[x][y].setI(x);
 				ans[x][y].setJ(y);
 			}

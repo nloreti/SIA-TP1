@@ -8,9 +8,9 @@ import utils.BoardUtils;
 
 public class Board {
 
-	final private static int SIZE = 6;
-	final private static int LAST_COL = 5;
-	final private static int EXIT_ROW = 2;
+	final  static int SIZE = 6;
+	final  static int LAST_COL = 5;
+	final  static int EXIT_ROW = 2;
 	private Position blueBlock;
 	private Token[][] board;
 	Map<Integer, Integer> blocks = new HashMap<Integer, Integer>();
