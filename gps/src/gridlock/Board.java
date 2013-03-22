@@ -8,13 +8,11 @@ import utils.BoardUtils;
 
 public class Board {
 
+	final private static int SIZE = 6;
+	final private static int LAST_COL = 5;
+	final private static int EXIT_ROW = 2;
 	private Position blueBlock;
-	// TODO: EL TAM ES COMUN A TODOS LOS TABLEROS DEL NIVEL, ESTO HAY QUE
-	// SACARLO PARA FUERA
-	private int size = 6;
 	private Token[][] board;
-	// TODO: LOS TAMANIOS SON COMUNES A TODOS LOS TABLEROS DEL NIVEL, ESTO HAY
-	// QUE SACARLO PARA FUERA
 	Map<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 
 	public Board(int[][] board) {
@@ -30,9 +28,9 @@ public class Board {
 	}
 
 	public Token[][] initBoard(int [][] board) {
-		Token[][] ans = new Token[6][6];
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
+		Token[][] ans = new Token[SIZE][SIZE];
+		for (int i = 0; i < this.SIZE; i++) {
+			for (int j = 0; j < this.SIZE; j++) {
 				ans[i][j] = new Token (board[i][j], i, j);
 			}
 		}
@@ -45,8 +43,8 @@ public class Board {
 
 	public void saveBlocks() {
 		int size;
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
+		for (int i = 0; i < this.SIZE; i++) {
+			for (int j = 0; j < this.SIZE; j++) {
 				int token = board[i][j].getValue();
 				if (!blocks.containsKey(token)) {
 					if (BoardUtils.isVertical(token)) {
@@ -61,7 +59,7 @@ public class Board {
 	}
 
 	public int getSize() {
-		return this.size;
+		return this.SIZE;
 	}
 
 	public Token[][] getRawBoard() {
@@ -70,8 +68,8 @@ public class Board {
 
 	public Position getBlueBlockPosition() {
 		Position ans = null;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
 				if (board[i][j].getValue() == '0') {
 					ans = new Position(i, j);
 					break;
@@ -84,7 +82,7 @@ public class Board {
 	public boolean isResolved() {
 	//	this.printBoard();
 		for (int i = 0; i < board.length; i++) {
-			if (board[i][5].getValue() == '0') {
+			if (board[i][LAST_COL].getValue() == '0') {
 				return true;
 			}
 		}
@@ -101,8 +99,8 @@ public class Board {
 
 	public void printBoard() {
 		System.out.println("Printing Board");
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
 				System.out.print((char) (board[i][j].getValue()) + " ");
 
 			}
@@ -136,8 +134,8 @@ public class Board {
 	@Override
 	public String toString() {
 		String ans = "Board\n";
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
 				ans += ((char) (board[i][j].getValue()) + " ");
 
 			}
@@ -149,9 +147,8 @@ public class Board {
 
 	public int getBlock2Exit() {
 		int blocks = 0;
-		for (int j = 5; board[2][j].getValue() != '0'; j--) {
-
-			int token = board[2][j].getValue();
+		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
+			int token = board[EXIT_ROW][j].getValue();
 			// printBoard();
 			// System.out.println("T: " + (char)token + " I:" + blueBlock.getX()
 			// + " J:" + j);
@@ -163,11 +160,11 @@ public class Board {
 		return blocks;
 	}
 
+	//TODO CHINITO WORKING ON THIS
 	public int getAproxCost2Exit() {
 		int cost = 0;
-
-		for (int j = 5; board[2][j].getValue() != '0'; j--) {
-			int token = board[2][j].getValue();
+		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
+			int token = board[EXIT_ROW][j].getValue();
 			if (token != '.' && token != '0') {
 				int lenght = blocks.get(token);
 				cost += canBeFree(lenght, 2, j);
@@ -185,7 +182,7 @@ public class Board {
 			}
 		}
 		if (isFree == false) {
-			for (int k = j; k < this.size; k++) {
+			for (int k = j; k < this.SIZE; k++) {
 				if (board[i][j].getValue() == '.' ) {
 					isFree = true;
 					break;

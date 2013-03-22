@@ -1,7 +1,5 @@
 package gridlock;
 
-import java.util.List;
-
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
@@ -20,7 +18,7 @@ public class GridLockRules implements GPSRule {
 	}
 
 	@Override
-	public List<GPSState> evalRule(GPSState state) throws NotAppliableException {
+	public GPSState evalRule(GPSState state) throws NotAppliableException {
 		// TODO Auto-generated method stub
 		return null;
 	}
