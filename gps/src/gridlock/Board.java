@@ -8,10 +8,10 @@ import utils.BoardUtils;
 
 public class Board {
 
+	final private static int LAST_COL = 5;
+	final private static int EXIT_ROW = 2;
 	private Position blueBlock;
 	private Token[][] board;
-	// TODO: LOS TAMANIOS SON COMUNES A TODOS LOS TABLEROS DEL NIVEL, ESTO HAY
-	// QUE SACARLO PARA FUERA
 	Map<Integer, Integer> blocks = new HashMap<Integer, Integer>();
 
 	public Board(int[][] board) {
@@ -80,7 +80,7 @@ public class Board {
 
 	public boolean isResolved() {
 		for (int i = 0; i < board.length; i++) {
-			if (board[i][5].getValue() == '0') {
+			if (board[i][LAST_COL].getValue() == '0') {
 				return true;
 			}
 		}
@@ -144,9 +144,8 @@ public class Board {
 
 	public int getBlock2Exit() {
 		int blocks = 0;
-		for (int j = 5; board[2][j].getValue() != '0'; j--) {
-
-			int token = board[2][j].getValue();
+		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
+			int token = board[EXIT_ROW][j].getValue();
 			// printBoard();
 			// System.out.println("T: " + (char)token + " I:" + blueBlock.getX()
 			// + " J:" + j);
@@ -158,11 +157,11 @@ public class Board {
 		return blocks;
 	}
 
+	//TODO CHINITO WORKING ON THIS
 	public int getAproxCost2Exit() {
 		int cost = 0;
-
-		for (int j = 5; board[2][j].getValue() != '0'; j--) {
-			int token = board[2][j].getValue();
+		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
+			int token = board[EXIT_ROW][j].getValue();
 			if (token != '.' && token != '0') {
 				int lenght = blocks.get(token);
 				cost += canBeFree(lenght, 2, j);
