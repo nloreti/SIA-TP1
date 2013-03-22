@@ -1,11 +1,11 @@
 package gridlock;
 
 public class Token {
-	
+
 	int value;
 	int i;
 	int j;
-	
+
 	public Token(int value, int i, int j) {
 		this.value = value;
 		this.i = i;
@@ -63,6 +63,5 @@ public class Token {
 			return false;
 		return true;
 	}
-	
-	
+
 }

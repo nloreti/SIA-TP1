@@ -8,7 +8,6 @@ public class GridLockGreedyEngine extends GPSEngine {
 	@Override
 	public void addNode(GPSNode node) {
 		node.setH(problem.getHValue(node.getState()));
-//		System.out.println(problem.getHValue(node.getState()));
 		if (open.isEmpty()) {
 			((LinkedList<GPSNode>) open).addFirst(node);
 			return;

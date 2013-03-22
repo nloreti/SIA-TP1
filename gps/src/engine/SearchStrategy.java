@@ -1,8 +1,5 @@
 package engine;
 
 public enum SearchStrategy {
-	BFS,
-	DFS,
-	AStar,
-	IDFS, GREEDY
+	BFS, DFS, AStar, IDFS, GREEDY
 }

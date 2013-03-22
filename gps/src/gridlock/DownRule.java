@@ -14,31 +14,22 @@ public class DownRule implements GPSRule {
 	}
 
 	@Override
-	public Integer getCost() {
-		return 1;
-	}
-
-	@Override
-	public String getName() {
-		return "Se mueve arriba la pieza";
-	}
-
-	@Override
 	public GPSState evalRule(GPSState state) throws NotAppliableException {
-	//	System.out.println("DownRule - Token: " + (char)token.getValue() + " I:" + token.getI() + " J:" + token.getJ());	
+		// System.out.println("DownRule - Token: " + (char)token.getValue() +
+		// " I:" + token.getI() + " J:" + token.getJ());
 		GPSState ans = null;
 		Board board = ((GridLockState) state).getBoard();
 		Token[][] rawBoard = board.getRawBoard();
-		
+
 		Board temp;
 		temp = checkDOWN(rawBoard);
-		
+
 		if (temp != null) {
-//			System.out.println("Original");
-//			board.printBoard();
-//			System.out.println("Movido");
-//			temp.printBoard();
-//			System.out.println("---------------");
+			// System.out.println("Original");
+			// board.printBoard();
+			// System.out.println("Movido");
+			// temp.printBoard();
+			// System.out.println("---------------");
 			ans = new GridLockState(temp);
 		}
 
@@ -46,36 +37,32 @@ public class DownRule implements GPSRule {
 	}
 
 	public Board checkDOWN(Token[][] board) {
-		
+
 		Token[][] ans = new Token[6][6];
 		BoardUtils.copyBoard(ans, board);
-		for(int x=0; x <6;x++) {
-			for(int y=0; y<6;y++) {
-				ans[x][y].setI(x);
-				ans[x][y].setJ(y);
-			}
-		}
+		BoardUtils.checkCorrect(ans);
 		int size, tokenValue, distance, k;
 		int i = token.getI();
 		int j = token.getJ();
-		//int[][] board = BoardUtils.getIntBoard(tokenBoard);
+		// int[][] board = BoardUtils.getIntBoard(tokenBoard);
 
 		if (i == 5) {
 			return null;
 		}
-	//	int[][] ans = new int[board.length][board.length];
-		
+		// int[][] ans = new int[board.length][board.length];
+
 		Token downToken = board[i + 1][j];
 		if (BoardUtils.isHorizontal(downToken.getValue())) {
 			return null;
 		} else if (BoardUtils.isVertical(downToken.getValue())) {
-		//	System.out.println("Entro al corto");
-			size = BoardUtils.getVTokenSize(board, downToken.getValue(), i + 1, j);
-			Token aux = ans[i+size][j];
-			ans[i+size][j] = token;
+			// System.out.println("Entro al corto");
+			size = BoardUtils.getVTokenSize(board, downToken.getValue(), i + 1,
+					j);
+			Token aux = ans[i + size][j];
+			ans[i + size][j] = token;
 			ans[i][j] = aux;
 		} else {
-	//		System.out.println("Entro al largo - " + i + " " + j);
+			// System.out.println("Entro al largo - " + i + " " + j);
 			int h;
 			for (h = i + 1; h < board.length; h++) {
 				tokenValue = board[h][j].getValue();
@@ -85,11 +72,13 @@ public class DownRule implements GPSRule {
 				if (BoardUtils.isVertical(tokenValue)) {
 					distance = h - i;
 					size = BoardUtils.getVTokenSize(board, tokenValue, h, j);
-		//			System.out.println("Size " + size + " - " + "distance: " + distance);
+					// System.out.println("Size " + size + " - " + "distance: "
+					// + distance);
 					for (k = i; size > 0; k++, size--) {
-			//			System.out.println("k: " + k + " k+size:" + (k+distance) + " j:" + j);
-						Token aux = ans[k+distance][j];
-						ans[k+distance][j] = ans[k][j];
+						// System.out.println("k: " + k + " k+size:" +
+						// (k+distance) + " j:" + j);
+						Token aux = ans[k + distance][j];
+						ans[k + distance][j] = ans[k][j];
 						ans[k][j] = aux;
 					}
 					break;
@@ -99,10 +88,17 @@ public class DownRule implements GPSRule {
 				return null;
 			}
 		}
-
-		
-		
 		return new Board(ans);
+	}
+
+	@Override
+	public Integer getCost() {
+		return 1;
+	}
+
+	@Override
+	public String getName() {
+		return "Se mueve arriba la pieza";
 	}
 
 }

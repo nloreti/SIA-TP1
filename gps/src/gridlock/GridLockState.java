@@ -2,11 +2,11 @@ package gridlock;
 
 import api.GPSState;
 
-public class GridLockState implements GPSState{
+public class GridLockState implements GPSState {
 
 	private Board board;
 
-		public GridLockState(Board borad) {
+	public GridLockState(Board borad) {
 		super();
 		this.board = borad;
 	}
@@ -14,7 +14,6 @@ public class GridLockState implements GPSState{
 	public Board getBoard() {
 		return board;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -28,14 +27,12 @@ public class GridLockState implements GPSState{
 
 	@Override
 	public boolean isGoalState() {
-		//board.printBoard();
-	//	System.out.println(board.isResolved());
 		return board.isResolved();
 	}
-	
+
 	@Override
 	public boolean compare(GPSState state) {
-		return board.equals(((GridLockState)state).getBoard());
+		return board.equals(((GridLockState) state).getBoard());
 	}
 
 }

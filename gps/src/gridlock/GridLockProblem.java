@@ -21,12 +21,7 @@ public class GridLockProblem implements GPSProblem {
 		this.initBoard = board;
 		rules = new ArrayList<GPSRule>();
 		initializeRules();
-//		sortRules();
 	}
-	
-//	private void sortRules() {
-//		//TODO: POR AHORA NADA;
-//	}
 
 	private void initializeRules() {
 		Token[][] rawboard = initBoard.getRawBoard();

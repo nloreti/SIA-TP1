@@ -25,7 +25,6 @@ public class LeftRule implements GPSRule {
 
 	@Override
 	public GPSState evalRule(GPSState state) throws NotAppliableException {
-	//	System.out.println("LeftRule - Token: " + (char)token.getValue() + " I:" + token.getI() + " J:" + token.getJ());	
 		GPSState ans = null;
 		Board board = ((GridLockState) state).getBoard();
 		Token[][] rawBoard = board.getRawBoard();
@@ -37,19 +36,12 @@ public class LeftRule implements GPSRule {
 
 		return ans;
 	}
-	
-	
+
 	public Board checkLEFT(Token[][] board) {
-		
-		Token[][] ans = new Token[6][6];
+
+		Token[][] ans = new Token[BoardUtils.size][BoardUtils.size];
 		BoardUtils.copyBoard(ans, board);
-		
-		for(int x=0; x <6;x++) {
-			for(int y=0; y<6;y++) {
-				ans[x][y].setI(x);
-				ans[x][y].setJ(y);
-			}
-		}
+		BoardUtils.checkCorrect(ans);
 
 		int size, tokenValue, distance, k;
 		int i = token.getI();
@@ -59,17 +51,18 @@ public class LeftRule implements GPSRule {
 			return null;
 		}
 
-		Token leftToken = board[i][j-1];
+		Token leftToken = board[i][j - 1];
 		if (BoardUtils.isVertical(leftToken.getValue())) {
 			return null;
 		} else if (BoardUtils.isHorizontal(leftToken.getValue())) {
-	//		System.out.println("Entro al corto - " + i + " " + j);
-			size = BoardUtils.getHTokenSize(board, leftToken.getValue(), i, j-1);
-			Token aux = ans[i][j-size];
-			ans[i][j-size] = token;
+			// System.out.println("Entro al corto - " + i + " " + j);
+			size = BoardUtils.getHTokenSize(board, leftToken.getValue(), i,
+					j - 1);
+			Token aux = ans[i][j - size];
+			ans[i][j - size] = token;
 			ans[i][j] = aux;
 		} else {
-		//	System.out.println("Entro al largo - " + i + " " + j);
+			// System.out.println("Entro al largo - " + i + " " + j);
 			int h;
 			for (h = j - 1; h >= 0; h--) {
 				tokenValue = board[i][h].getValue();
@@ -77,14 +70,17 @@ public class LeftRule implements GPSRule {
 					return null;
 				}
 				if (BoardUtils.isHorizontal(tokenValue)) {
-			//		System.out.println("H: " + h + " token: " + (char)tokenValue);
-					distance = j-h;
+					// System.out.println("H: " + h + " token: " +
+					// (char)tokenValue);
+					distance = j - h;
 					size = BoardUtils.getHTokenSize(board, tokenValue, i, h);
-				//	System.out.println("Size " + size + " - " + "distance: " + distance);
+					// System.out.println("Size " + size + " - " + "distance: "
+					// + distance);
 					for (k = j; size > 0; k--, size--) {
-					//	System.out.println("k: " + k + " k+size:" + (k+distance) + " j:" + j);
-						Token aux = ans[i][k-distance];
-						ans[i][k-distance] = ans[i][k];
+						// System.out.println("k: " + k + " k+size:" +
+						// (k+distance) + " j:" + j);
+						Token aux = ans[i][k - distance];
+						ans[i][k - distance] = ans[i][k];
 						ans[i][k] = aux;
 					}
 					break;
@@ -96,20 +92,5 @@ public class LeftRule implements GPSRule {
 		}
 		return new Board(ans);
 	}
-	
-	public boolean isHorizontal(int token) {
-		if( (token >= 'a' && token <= 'z') || token == '0') {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isVertical(int token) {
-		if(token >= '1' && token <= '9') {
-			return true;
-		}
-		return false;
-	}
-
 
 }

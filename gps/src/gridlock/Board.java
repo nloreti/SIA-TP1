@@ -9,9 +9,6 @@ import utils.BoardUtils;
 public class Board {
 
 	private Position blueBlock;
-	// TODO: EL TAM ES COMUN A TODOS LOS TABLEROS DEL NIVEL, ESTO HAY QUE
-	// SACARLO PARA FUERA
-	private int size = 6;
 	private Token[][] board;
 	// TODO: LOS TAMANIOS SON COMUNES A TODOS LOS TABLEROS DEL NIVEL, ESTO HAY
 	// QUE SACARLO PARA FUERA
@@ -22,31 +19,31 @@ public class Board {
 		blueBlock = this.getBlueBlockPosition();
 		saveBlocks();
 	}
-	
+
 	public Board(Token[][] board) {
 		this.board = board;
 		blueBlock = this.getBlueBlockPosition();
 		saveBlocks();
 	}
 
-	public Token[][] initBoard(int [][] board) {
-		Token[][] ans = new Token[6][6];
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
-				ans[i][j] = new Token (board[i][j], i, j);
+	public Token[][] initBoard(int[][] board) {
+		Token[][] ans = new Token[BoardUtils.size][BoardUtils.size];
+		for (int i = 0; i < BoardUtils.size; i++) {
+			for (int j = 0; j < BoardUtils.size; j++) {
+				ans[i][j] = new Token(board[i][j], i, j);
 			}
 		}
 		return ans;
 	}
-	
+
 	public Map<Integer, Integer> getBlocks() {
 		return blocks;
 	}
 
 	public void saveBlocks() {
 		int size;
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
+		for (int i = 0; i < BoardUtils.size; i++) {
+			for (int j = 0; j < BoardUtils.size; j++) {
 				int token = board[i][j].getValue();
 				if (!blocks.containsKey(token)) {
 					if (BoardUtils.isVertical(token)) {
@@ -61,7 +58,7 @@ public class Board {
 	}
 
 	public int getSize() {
-		return this.size;
+		return BoardUtils.size;
 	}
 
 	public Token[][] getRawBoard() {
@@ -70,8 +67,8 @@ public class Board {
 
 	public Position getBlueBlockPosition() {
 		Position ans = null;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < BoardUtils.size; i++) {
+			for (int j = 0; j < BoardUtils.size; j++) {
 				if (board[i][j].getValue() == '0') {
 					ans = new Position(i, j);
 					break;
@@ -82,7 +79,6 @@ public class Board {
 	}
 
 	public boolean isResolved() {
-	//	this.printBoard();
 		for (int i = 0; i < board.length; i++) {
 			if (board[i][5].getValue() == '0') {
 				return true;
@@ -101,10 +97,9 @@ public class Board {
 
 	public void printBoard() {
 		System.out.println("Printing Board");
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < BoardUtils.size; i++) {
+			for (int j = 0; j < BoardUtils.size; j++) {
 				System.out.print((char) (board[i][j].getValue()) + " ");
-
 			}
 
 			System.out.println();
@@ -136,8 +131,8 @@ public class Board {
 	@Override
 	public String toString() {
 		String ans = "Board\n";
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < BoardUtils.size; i++) {
+			for (int j = 0; j < BoardUtils.size; j++) {
 				ans += ((char) (board[i][j].getValue()) + " ");
 
 			}
@@ -185,14 +180,14 @@ public class Board {
 			}
 		}
 		if (isFree == false) {
-			for (int k = j; k < this.size; k++) {
-				if (board[i][j].getValue() == '.' ) {
+			for (int k = j; k < BoardUtils.size; k++) {
+				if (board[i][j].getValue() == '.') {
 					isFree = true;
 					break;
 				}
 			}
 		}
-		return isFree == true? 2:1;
+		return isFree == true ? 2 : 1;
 
 	}
 
