@@ -10,6 +10,7 @@ public class Board {
 
 	final static int SIZE = 6;
 	final static int LAST_COL = 5;
+	final static int LAST_ROW = 5;
 	final static int EXIT_ROW = 2;
 	private Position blueBlock;
 	private Token[][] board;

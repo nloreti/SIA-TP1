@@ -12,7 +12,6 @@ public class GPSNode {
 	private int depth;
 
 	private int h;
-	private int g;
 
 	public GPSNode(GPSState state, Integer cost) {
 		this(state, cost, 0);
@@ -53,16 +52,8 @@ public class GPSNode {
 		this.h = h;
 	}
 
-	public int getG() {
-		return g;
-	}
-
-	public void setG(int g) {
-		this.g = g;
-	}
-
 	public int getF() {
-		return getG() + getH();
+		return getCost() + getH();
 	}
 
 	@Override

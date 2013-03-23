@@ -38,7 +38,7 @@ public class DownRule implements GPSRule {
 
 	public Board checkDOWN(Token[][] board) {
 
-		Token[][] ans = new Token[6][6];
+		Token[][] ans = new Token[Board.SIZE][Board.SIZE];
 		BoardUtils.copyBoard(ans, board);
 		BoardUtils.checkCorrect(ans);
 		int size, tokenValue, distance, k;
@@ -46,7 +46,7 @@ public class DownRule implements GPSRule {
 		int j = token.getJ();
 		// int[][] board = BoardUtils.getIntBoard(tokenBoard);
 
-		if (i == 5) {
+		if (i == Board.LAST_ROW) {
 			return null;
 		}
 		// int[][] ans = new int[board.length][board.length];

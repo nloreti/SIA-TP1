@@ -28,7 +28,7 @@ public class RightRule implements GPSRule {
 	}
 
 	public Board checkRIGHT(Token[][] board) {
-		Token[][] ans = new Token[BoardUtils.size][BoardUtils.size];
+		Token[][] ans = new Token[Board.SIZE][Board.SIZE];
 		BoardUtils.copyBoard(ans, board);
 		BoardUtils.checkCorrect(ans);
 		int size, tokenValue, distance, k;

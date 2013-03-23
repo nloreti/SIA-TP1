@@ -8,7 +8,6 @@ public class GridLockAStarEngine extends GPSEngine {
 	@Override
 	public void addNode(GPSNode node) {
 		node.setH(problem.getHValue(node.getState()));
-		node.setG(node.getParent().getG() + node.getCost());
 		if (open.isEmpty()) {
 			((LinkedList<GPSNode>) open).addFirst(node);
 			return;

@@ -27,7 +27,6 @@ public abstract class GPSEngine {
 	private SearchStrategy strategy;
 
 	public void engine(GPSProblem myProblem, SearchStrategy myStrategy) {
-
 		problem = myProblem;
 		strategy = myStrategy;
 
@@ -96,6 +95,8 @@ public abstract class GPSEngine {
 	}
 
 	private boolean checkOpenAndClosed(Integer cost, GPSState state) {
+		//si ya se pasó por el mismo estado y el costo era menor no se tiene que 
+		//explotar de nuevo el estado
 		for (GPSNode openNode : open) {
 			if (openNode.getState().compare(state) && openNode.getCost() < cost) {
 				return true;
@@ -110,6 +111,7 @@ public abstract class GPSEngine {
 		return false;
 	}
 
+	// se fija que no haya un ciclo
 	private boolean checkBranch(GPSNode parent, GPSState state) {
 		if (parent == null) {
 			return false;
