@@ -12,24 +12,18 @@ public class GridLockIDFSEngine extends GPSEngine {
 
 	private final static int DEFAULT_DEPTH = 50;
 	private final static int DEPTH_JUMP = 100;
-	private Set<GPSNode> visited = new HashSet<GPSNode>();
 	private int currentMaxDepth;
 
 	@Override
 	public void engine(GPSProblem problem, SearchStrategy strategy) {
-		//TODO para que se hace esto?
 		((GridLockProblem) problem).invertRules();
-		visited.clear();
 		currentMaxDepth = DEFAULT_DEPTH;
 		super.engine(problem, strategy);
 	}
 
 	@Override
 	public void addNode(GPSNode node) {
-		if (!visited.contains(node)) {
 			((LinkedList<GPSNode>) open).addFirst(node);
-			visited.add(node);
-		}
 	}
 
 	@Override
@@ -39,7 +33,6 @@ public class GridLockIDFSEngine extends GPSEngine {
 			// y empezar de nuevo
 			open.clear();
 			closed.clear();
-			visited.clear();
 			open.add(new GPSNode(problem.getInitState(), 0, 0));
 			currentMaxDepth += DEPTH_JUMP;
 			System.out.println("current depth: " + currentMaxDepth );

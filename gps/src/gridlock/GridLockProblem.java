@@ -57,12 +57,14 @@ public class GridLockProblem implements GPSProblem {
 	}
 
 	public void invertRules() {
-		int min = 0;
-		int max = 3;
-		int random = min + (int)(Math.random() * ((max - min) + 1));
-		GPSRule rule = rules.get(random);
-		rules.remove(random);
-		rules.add(rule);
+		//TODO inverts half the rules
+		int inversion_count = rules.size()/2;
+		for (int i =0; i< inversion_count ; i++ ){
+			int random = (int)(Math.random() * (inversion_count-1));
+			GPSRule rule = rules.get(random);
+			rules.remove(random);
+			rules.add(rule);
+		}
 	}
 
 

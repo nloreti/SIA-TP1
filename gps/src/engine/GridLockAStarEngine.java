@@ -1,41 +1,40 @@
 package engine;
 
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class GridLockAStarEngine extends GPSEngine {
 
+	
+	private static final int DEFAULT_QUEUE_SIZE = 100;
+	public GridLockAStarEngine(){
+		open = new PriorityQueue<GPSNode>(DEFAULT_QUEUE_SIZE, new Comparator<GPSNode>() {
+            @Override
+            public int compare(GPSNode n1, GPSNode n2) {
+                    if (n1.getF() != n2.getF()) {
+                            return n1.getF()  - n2.getF();
+                    }
+                    return n1.getH()  - n2.getH();
+            }
+    });
+		
+	}
+	
 	@Override
 	public void addNode(GPSNode node) {
 		node.setH(problem.getHValue(node.getState()));
-		if (open.isEmpty()) {
-			((LinkedList<GPSNode>) open).addFirst(node);
-			return;
-		}
-		Iterator<GPSNode> it = open.iterator();
-		int depth = node.getDepth();
-		int index = 0;
-		while (it.hasNext()) {
-			GPSNode n = it.next();
-			if (n.getDepth() == depth && node.getF() <= n.getF()) {
-				// if nodes have the same depth, enqueue node
-				// only if the h() value is less than this element
-				((LinkedList<GPSNode>) open).add(index, node);
-				return;
-			} else if (n.getDepth() < depth) {
-				// if nodes in queue have less depth than this node,
-				// enqueue it before them
-				((LinkedList<GPSNode>) open).add(index, node);
-				return;
-			}
-			index++;
-		}
-		((LinkedList<GPSNode>) open).add(node);
+		open.add(node);
 	}
 
 	@Override
 	public String getStrategyName() {
 		return "AStar Strategy";
+	}
+	
+	@Override
+	protected GPSNode getHead(){
+		return ((PriorityQueue<GPSNode>) open).remove();
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,11 +9,10 @@ import api.GPSProblem;
 import api.GPSRule;
 import api.GPSState;
 import exception.NotAppliableException;
-import gridlock.GridLockState;
 
 public abstract class GPSEngine {
 
-	protected List<GPSNode> open;
+	protected Collection<GPSNode> open;
 
 	protected List<GPSNode> closed;
 
@@ -41,9 +41,8 @@ public abstract class GPSEngine {
 			if (open.size() <= 0) {
 				failed = true;
 			} else {
-				GPSNode currentNode = open.get(0);
+				GPSNode currentNode = getHead();
 				closed.add(currentNode);
-				open.remove(0);
 				if (isGoal(currentNode)) {
 					finished = true;
 					System.out.println(currentNode.getSolution());
@@ -129,5 +128,9 @@ public abstract class GPSEngine {
 	public abstract void addNode(GPSNode node);
 
 	public abstract String getStrategyName();
+	
+	protected GPSNode getHead(){
+		return ((List<GPSNode>) open).remove(0);
+	}
 
 }
