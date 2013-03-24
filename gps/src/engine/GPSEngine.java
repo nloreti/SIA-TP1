@@ -30,12 +30,13 @@ public abstract class GPSEngine {
 		problem = myProblem;
 		strategy = myStrategy;
 
-		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
+		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, 0);
 		boolean finished = false;
 		boolean failed = false;
 		long explosionCounter = 0;
 
 		open.add(rootNode);
+		long startTime = System.nanoTime();
 		while (!failed && !finished) {
 			if (open.size() <= 0) {
 				failed = true;
@@ -47,6 +48,12 @@ public abstract class GPSEngine {
 					finished = true;
 					System.out.println(currentNode.getSolution());
 					System.out.println("Expanded nodes: " + explosionCounter);
+					System.out.println("Depth: " + currentNode.getDepth());
+					System.out.println("Frontier nodes: " + open.size());
+					System.out.println("Total States: " + open.size() + closed.size());
+					long endTime = System.nanoTime();
+					long duration = endTime - startTime;
+					System.out.println("Processing Time: " + (duration/1000000000.0) + " sec");
 				} else {
 					explosionCounter++;
 					explode(currentNode);
@@ -85,7 +92,7 @@ public abstract class GPSEngine {
 					&& !checkOpenAndClosed(node.getCost() + rule.getCost(),
 							newState)) {
 				GPSNode newNode = new GPSNode(newState, node.getCost()
-						+ rule.getCost());
+						+ rule.getCost(), node.getDepth() + 1);
 				newNode.setParent(node);
 				// ((GridLockState) newNode.getState()).getBoard().printBoard();
 				addNode(newNode);

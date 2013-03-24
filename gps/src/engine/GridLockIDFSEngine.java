@@ -34,7 +34,7 @@ public class GridLockIDFSEngine extends GPSEngine {
 		if (node.getDepth() >= currentMaxDepth) {
 			open.clear();
 			visited.clear();
-			open.add(new GPSNode(problem.getInitState(), 0));
+			open.add(new GPSNode(problem.getInitState(), 0,0));
 			currentMaxDepth++;
 			return true;
 		}
