@@ -57,7 +57,7 @@ public class GridLockProblem implements GPSProblem {
 	}
 
 	public void invertRules() {
-		//TODO inverts half the rules
+		//inverts half the rules
 		int inversion_count = rules.size()/2;
 		for (int i =0; i< inversion_count ; i++ ){
 			int random = (int)(Math.random() * (inversion_count-1));

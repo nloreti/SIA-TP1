@@ -13,13 +13,11 @@ public class GridLockRules implements GPSRule {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public GPSState evalRule(GPSState state) throws NotAppliableException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -1,7 +1,5 @@
 package engine;
 
-import java.util.PriorityQueue;
-
 import api.GPSProblem;
 
 public class GridLockBFSEngine extends GPSEngine {
@@ -20,7 +18,6 @@ public class GridLockBFSEngine extends GPSEngine {
 		open.add(node);
 	}
 
-	
 	@Override
 	public String getStrategyName() {
 		return "BFS";

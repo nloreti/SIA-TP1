@@ -45,6 +45,7 @@ public abstract class GPSEngine {
 				closed.add(currentNode);
 				if (isGoal(currentNode)) {
 					finished = true;
+					//logging 
 					System.out.println(currentNode.getSolution());
 					System.out.println("Expanded nodes: " + explosionCounter);
 					System.out.println("Depth: " + currentNode.getDepth());

@@ -55,14 +55,12 @@ public class LeftRule implements GPSRule {
 		if (BoardUtils.isVertical(leftToken.getValue())) {
 			return null;
 		} else if (BoardUtils.isHorizontal(leftToken.getValue())) {
-			// System.out.println("Entro al corto - " + i + " " + j);
 			size = BoardUtils.getHTokenSize(board, leftToken.getValue(), i,
 					j - 1);
 			Token aux = ans[i][j - size];
 			ans[i][j - size] = token;
 			ans[i][j] = aux;
 		} else {
-			// System.out.println("Entro al largo - " + i + " " + j);
 			int h;
 			for (h = j - 1; h >= 0; h--) {
 				tokenValue = board[i][h].getValue();
@@ -70,15 +68,9 @@ public class LeftRule implements GPSRule {
 					return null;
 				}
 				if (BoardUtils.isHorizontal(tokenValue)) {
-					// System.out.println("H: " + h + " token: " +
-					// (char)tokenValue);
 					distance = j - h;
 					size = BoardUtils.getHTokenSize(board, tokenValue, i, h);
-					// System.out.println("Size " + size + " - " + "distance: "
-					// + distance);
 					for (k = j; size > 0; k--, size--) {
-						// System.out.println("k: " + k + " k+size:" +
-						// (k+distance) + " j:" + j);
 						Token aux = ans[i][k - distance];
 						ans[i][k - distance] = ans[i][k];
 						ans[i][k] = aux;

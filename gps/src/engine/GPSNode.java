@@ -13,9 +13,6 @@ public class GPSNode {
 
 	private int h;
 
-//	public GPSNode(GPSState state, Integer cost) {
-//		this(state, cost, 0);
-//	}
 
 	public GPSNode(GPSState state, Integer cost, int depth) {
 		super();

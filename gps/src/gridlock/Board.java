@@ -146,14 +146,10 @@ public class Board {
 		int blocks = 0;
 		for (int j = LAST_COL; board[EXIT_ROW][j].getValue() != '0'; j--) {
 			int token = board[EXIT_ROW][j].getValue();
-			// printBoard();
-			// System.out.println("T: " + (char)token + " I:" + blueBlock.getX()
-			// + " J:" + j);
 			if (token != '.' && token != 0) {
 				blocks++;
 			}
 		}
-		// /System.out.println("Blocks " + blocks);
 		return blocks;
 	}
 

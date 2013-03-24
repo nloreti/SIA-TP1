@@ -7,6 +7,7 @@ public class GridLockAStarEngine extends GPSEngine {
 
 	
 	private static final int DEFAULT_QUEUE_SIZE = 100;
+	
 	public GridLockAStarEngine(){
 		open = new PriorityQueue<GPSNode>(DEFAULT_QUEUE_SIZE, new Comparator<GPSNode>() {
             @Override
