@@ -14,7 +14,7 @@ public abstract class GPSEngine {
 
 	protected List<GPSNode> open;
 
-	private List<GPSNode> closed;
+	protected List<GPSNode> closed;
 
 	protected GPSProblem problem;
 
@@ -83,7 +83,6 @@ public abstract class GPSEngine {
 			GPSState newState = null;
 			try {
 				newState = rule.evalRule(node.getState());
-
 			} catch (NotAppliableException e) {
 				// Do nothing
 			}
