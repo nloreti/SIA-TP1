@@ -98,13 +98,13 @@ public abstract class GPSEngine {
 		//si ya se pasó por el mismo estado y el costo era menor no se tiene que 
 		//explotar de nuevo el estado
 		for (GPSNode openNode : open) {
-			if (openNode.getState().compare(state) && openNode.getCost() < cost) {
+			if (openNode.getState().compare(state) && openNode.getCost() <= cost) {
 				return true;
 			}
 		}
 		for (GPSNode closedNode : closed) {
 			if (closedNode.getState().compare(state)
-					&& closedNode.getCost() < cost) {
+					&& closedNode.getCost() <= cost) {
 				return true;
 			}
 		}

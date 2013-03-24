@@ -55,10 +55,6 @@ public class Token {
 		if (getClass() != obj.getClass())
 			return false;
 		Token other = (Token) obj;
-		if (i != other.i)
-			return false;
-		if (j != other.j)
-			return false;
 		if (value != other.value)
 			return false;
 		return true;

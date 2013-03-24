@@ -81,10 +81,8 @@ public class Board {
 	}
 
 	public boolean isResolved() {
-		for (int i = 0; i < board.length; i++) {
-			if (board[i][LAST_COL].getValue() == '0') {
-				return true;
-			}
+		if (board[EXIT_ROW][LAST_COL].getValue() == '0') {
+			return true;
 		}
 		return false;
 	}
